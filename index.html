@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Federal Health IT Navigator — ADA</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  :root {
+    --blue-bg: #E6F1FB; --blue-txt: #0C447C; --blue-bdr: #185FA5;
+    --teal-bg: #E1F5EE; --teal-txt: #085041; --teal-bdr: #0F6E56;
+    --amber-bg: #FAEEDA; --amber-txt: #633806; --amber-bdr: #854F0B;
+    --coral-bg: #FAECE7; --coral-txt: #712B13; --coral-bdr: #993C1D;
+    --green-bg: #EAF3DE; --green-txt: #27500A; --green-bdr: #3B6D11;
+    --gray-bg: #F1EFE8; --gray-txt: #444441; --gray-bdr: #5F5E5A;
+    --purple-bg: #EEEDFE; --purple-txt: #3C3489; --purple-bdr: #534AB7;
+    --bg: #ffffff; --bg2: #f8f7f4; --bg3: #f1efe8;
+    --text: #1a1a18; --text2: #5a5a56; --text3: #696965;
+    --border: rgba(0,0,0,0.12); --border2: rgba(0,0,0,0.22);
+    --radius: 8px; --radius-lg: 12px;
+    --ada-red: #c8102e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg2); color: var(--text); font-size: 14px; line-height: 1.6; min-height: 100vh; }
+
+  /* Header */
+  .site-header { background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--ada-red); letter-spacing: .01em; text-decoration: none; }
+  .logo-badge { background: var(--ada-red); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; letter-spacing: .04em; }
+  .header-title { font-size: 13px; color: var(--text2); font-weight: 500; }
+
+  /* Layout */
+  .page { max-width: 720px; margin: 0 auto; padding: 32px 20px 60px; }
+  .intro { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 24px; }
+  .intro h1 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  .intro p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .intro p + p { margin-top: 8px; }
+  .intro-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .meta-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: var(--bg3); color: var(--text2); border: 0.5px solid var(--border); }
+
+  /* Progress */
+  .prog-wrap { display: flex; align-items: center; gap: 5px; margin-bottom: 16px; flex-wrap: wrap; }
+  .prog-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); display: inline-block; transition: background .25s; }
+  .prog-dot.done { background: #378ADD; }
+  .prog-dot.active { background: #185FA5; box-shadow: 0 0 0 2px #E6F1FB; }
+  .prog-sep { font-size: 10px; color: var(--text3); }
+
+  /* Cards */
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 16px; animation: fadeUp .2s ease; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+  .q-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+  .q-text { font-size: 15px; font-weight: 600; margin-bottom: 4px; line-height: 1.45; }
+  .q-hint { font-size: 12px; color: var(--text2); margin-bottom: 14px; line-height: 1.5; }
+  .crumbs { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-bottom: 12px; }
+  .crumb { font-size: 12px; color: var(--text3); }
+  .crumb.last { color: var(--text2); }
+  .crumb-sep { font-size: 10px; color: var(--border2); }
+
+  /* Options */
+  .opts { display: flex; flex-direction: column; gap: 7px; }
+  .opt { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; text-align: left; font-size: 13px; color: var(--text); line-height: 1.45; transition: border-color .15s, background .15s; width: 100%; }
+  .opt:hover { background: var(--bg2); border-color: #185FA5; }
+  .opt.selected { border-color: #185FA5; background: var(--blue-bg); }
+  .opt.disabled { opacity: .4; cursor: not-allowed; }
+  .opt-icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; color: #1761AB; }
+  .opt-icon.selected-icon { color: #185FA5; }
+  .opt-main { font-weight: 600; }
+  .opt-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+  /* Buttons */
+  .btn-continue { margin-top: 14px; padding: 9px 20px; border: 0.5px solid #185FA5; border-radius: var(--radius); background: var(--blue-bg); color: var(--blue-txt); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background .15s; }
+  .btn-continue:hover { background: #d0e8f7; }
+  .btn-back { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); background: none; border: none; cursor: pointer; padding: 4px 0; margin-bottom: 10px; transition: color .15s; }
+  .btn-back:hover { color: var(--text); }
+  .btn-reset { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 8px 16px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); transition: background .15s; }
+  .btn-reset:hover { background: var(--bg2); }
+
+  /* Notice box */
+  .notice { padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg2); margin-bottom: 12px; font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .notice strong { font-weight: 600; color: var(--text); }
+
+  /* Result card */
+  .result-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; animation: fadeUp .25s ease; margin-bottom: 16px; }
+  .r-head { padding: 20px 24px 16px; border-bottom: 0.5px solid var(--border); }
+  .r-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
+  .r-title { font-size: 16px; font-weight: 600; margin-bottom: 5px; line-height: 1.4; }
+  .r-sub { font-size: 13px; color: var(--text2); line-height: 1.55; }
+  .prog-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+  .prog-tag { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
+  .hl-box { padding: 10px 14px; border-left: 3px solid; margin-top: 12px; }
+  .hl-title { font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+  .hl-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+  /* Sections */
+  .sec { padding: 16px 24px; border-bottom: 0.5px solid var(--border); }
+  .sec:last-child { border-bottom: none; }
+  .sec-label { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; }
+  .reg-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
+  .reg-item:last-child { border-bottom: none; }
+  .reg-ico { width: 32px; height: 32px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-size: 16px; }
+  .reg-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  .reg-cite { font-size: 12px; color: var(--text3); margin-bottom: 4px; }
+  .reg-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .consid-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media (max-width: 500px) { .consid-grid { grid-template-columns: 1fr; } }
+  .ci { padding: 10px 12px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--bg2); }
+  .ci-head { font-size: 12px; font-weight: 600; margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
+  .ci-text { font-size: 12px; color: var(--text2); line-height: 1.45; }
+  .acts { display: flex; flex-direction: column; gap: 6px; }
+  .act { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .act-n { width: 18px; height: 18px; border-radius: 50%; background: var(--bg2); border: 0.5px solid var(--border2); font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text); margin-top: 1px; }
+
+  /* Submission form */
+  .submit-section { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-top: 16px; }
+  .submit-section h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .submit-section .sub-desc { font-size: 12px; color: var(--text2); margin-bottom: 16px; line-height: 1.5; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 12px; font-weight: 600; color: var(--text2); }
+  label .req { color: var(--ada-red); margin-left: 2px; }
+  input[type="text"], input[type="email"], textarea, select {
+    padding: 9px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius);
+    font-size: 13px; font-family: inherit; color: var(--text); background: var(--bg);
+    width: 100%; transition: border-color .15s; outline: none;
+  }
+  input:focus, textarea:focus, select:focus { border-color: #185FA5; box-shadow: 0 0 0 2px var(--blue-bg); }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+  .char-count { font-size: 12px; color: var(--text3); text-align: right; margin-top: 3px; }
+  .btn-submit { width: 100%; margin-top: 16px; padding: 11px 20px; border: none; border-radius: var(--radius); background: var(--ada-red); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .15s; font-family: inherit; }
+  .btn-submit:hover { background: #a50d24; }
+  .btn-submit:disabled { background: var(--text3); cursor: not-allowed; }
+  .privacy-note { font-size: 12px; color: var(--text3); text-align: center; margin-top: 10px; line-height: 1.5; }
+
+  /* Success state */
+  .success-card { background: var(--green-bg); border: 0.5px solid var(--green-bdr); border-radius: var(--radius-lg); padding: 28px 24px; text-align: center; margin-top: 16px; animation: fadeUp .3s ease; }
+  .success-icon { font-size: 36px; color: var(--green-txt); margin-bottom: 10px; }
+  .success-card h3 { font-size: 16px; font-weight: 600; color: var(--green-txt); margin-bottom: 6px; }
+  .success-card p { font-size: 13px; color: var(--teal-txt); line-height: 1.6; }
+
+  /* Error */
+  .error-msg { background: var(--coral-bg); border: 0.5px solid var(--coral-bdr); border-radius: var(--radius); padding: 10px 14px; font-size: 12px; color: var(--coral-txt); margin-top: 10px; display: none; }
+  .error-msg.visible { display: block; }
+
+  /* Footer */
+  .site-footer { text-align: center; padding: 24px; font-size: 12px; color: var(--text3); border-top: 0.5px solid var(--border); margin-top: 24px; }
+
+  /* Print */
+  @media print {
+    .site-header, .btn-back, .btn-reset, .submit-section, .site-footer { display: none !important; }
+    body { background: #fff; }
+    .result-card { border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">
+    <span class="logo-badge">ADA</span>
+    American Dental Association
+  </div>
+  <div class="header-title">Federal Health IT Navigator</div>
+</header>
+
+<div class="page">
+
+  <div class="intro">
+    <h1>Federal Health IT Regulatory Navigator</h1>
+    <p>This tool helps dental providers identify which federal health IT regulations apply to their practice based on program participation, and what to consider when making software decisions.</p>
+    <p>Answer a few questions about your practice type and payer participation. You will receive a customized summary of applicable regulations and recommended next steps. Your responses and any follow-up questions are submitted anonymously to ADA staff.</p>
+    <div class="intro-meta">
+      <span class="meta-pill"><i class="ti ti-clock" style="font-size:13px"></i> 3–5 minutes</span>
+      <span class="meta-pill"><i class="ti ti-shield-check" style="font-size:13px"></i> Anonymous submission</span>
+      <span class="meta-pill"><i class="ti ti-device-laptop" style="font-size:13px"></i> Works offline</span>
+    </div>
+  </div>
+
+  <div id="prog" class="prog-wrap"></div>
+  <div id="main"></div>
+
+</div>
+
+<footer class="site-footer">
+  American Dental Association &nbsp;·&nbsp; Federal Health IT Navigator &nbsp;·&nbsp; For questions contact <a href="mailto:fiehnr@ada.org" style="color:var(--ada-red)">fiehnr@ada.org</a>
+</footer>
+
+<script>
+// ─── COLOR HELPERS ────────────────────────────────────────────────────────────
+const COLORS = {
+  blue:   { bg:'#E6F1FB', txt:'#0C447C', bdr:'#185FA5' },
+  teal:   { bg:'#E1F5EE', txt:'#085041', bdr:'#0F6E56' },
+  amber:  { bg:'#FAEEDA', txt:'#633806', bdr:'#854F0B' },
+  coral:  { bg:'#FAECE7', txt:'#712B13', bdr:'#993C1D' },
+  green:  { bg:'#EAF3DE', txt:'#27500A', bdr:'#3B6D11' },
+  gray:   { bg:'#F1EFE8', txt:'#444441', bdr:'#5F5E5A' },
+  purple: { bg:'#EEEDFE', txt:'#3C3489', bdr:'#534AB7' },
+};
+const tc = c => `background:${COLORS[c].bg};color:${COLORS[c].txt};`;
+const bc = c => `background:${COLORS[c].bg};color:${COLORS[c].txt};border-left-color:${COLORS[c].bdr};`;
+
+// ─── PROGRAM LABELS ───────────────────────────────────────────────────────────
+const PROG_LABELS = {
+  ma:'Medicare Advantage', mffs:'Medicare FFS',
+  mco:'Medicaid MCO', mffs_state:'Medicaid FFS',
+  chip:'CHIP', commercial:'Commercial/private payers', selfpay:'Self-pay / no insurance', none:'Self-pay only',
+  fqhc_mco:'Medicaid MCO', fqhc_mffs:'Medicaid FFS',
+  fqhc_chip:'CHIP', fqhc_ma:'Medicare Advantage', fqhc_mffs_med:'Medicare FFS',
+  fqhc_commercial:'Commercial / private payers', fqhc_selfpay:'Sliding scale or self-pay',
+  np_mco:'Medicaid MCO', np_mffs:'Medicaid FFS', np_chip:'CHIP',
+  np_ma:'Medicare Advantage', np_mffs_med:'Medicare FFS',
+  np_commercial:'Commercial / private payers', np_selfpay:'Sliding scale / charity care',
+  hosp_ipps:'Medicare FFS (IPPS/OPPS)', hosp_ma:'Medicare Advantage',
+  hosp_medicaid:'Medicaid', hosp_chip:'CHIP', hosp_commercial:'Commercial payers',
+  hosp_selfpay:'Self-pay / charity care', hosp_cah:'Critical Access Hospital'
+};
+
+// ─── OPTIONS ──────────────────────────────────────────────────────────────────
+const PROGRAM_OPTIONS = [
+  { icon:'ti-heart-handshake', label:'Medicare Advantage (Part C)', sub:'Contracted with one or more MA plans for dental benefits', id:'ma' },
+  { icon:'ti-file-invoice',    label:'Medicare fee-for-service (traditional Medicare)', sub:'Part B billing for covered dental — oral surgery, medically necessary', id:'mffs' },
+  { icon:'ti-building-community', label:'Medicaid managed care (MCO/PAHP)', sub:'Contracted with Medicaid MCO or prepaid ambulatory health plan', id:'mco' },
+  { icon:'ti-receipt',         label:'Medicaid fee-for-service', sub:'Direct billing to state Medicaid program', id:'mffs_state' },
+  { icon:'ti-baby-carriage',   label:'CHIP (Children\'s Health Insurance Program)', sub:'Including separate CHIP and Medicaid-expansion CHIP', id:'chip' },
+  { icon:'ti-credit-card',     label:'Commercial / private payers', sub:'Employer-sponsored PPO, DHMO, indemnity — including MA supplemental dental contracts', id:'commercial' },
+  { icon:'ti-user',            label:'Self-pay / no insurance contracts', sub:'Accept self-pay patients — may be in addition to insurance participation', id:'selfpay' },
+];
+
+const FQHC_OPTIONS = [
+  { icon:'ti-heart-handshake', label:'Medicaid managed care (MCO/PAHP)', sub:'Capitated dental benefit managed care', id:'fqhc_mco' },
+  { icon:'ti-receipt',         label:'Medicaid fee-for-service', sub:'State Medicaid encounter rate billing', id:'fqhc_mffs' },
+  { icon:'ti-baby-carriage',   label:'CHIP', sub:'CHIP-enrolled pediatric patients', id:'fqhc_chip' },
+  { icon:'ti-heart-handshake', label:'Medicare Advantage', sub:'MA plan dental benefit contracts', id:'fqhc_ma' },
+  { icon:'ti-file-invoice',    label:'Medicare FFS', sub:'Medically necessary dental billable to Medicare', id:'fqhc_mffs_med' },
+  { icon:'ti-credit-card',     label:'Commercial / private payers', sub:'Employer-sponsored PPO, DHMO, or indemnity plans', id:'fqhc_commercial' },
+  { icon:'ti-user',            label:'Sliding scale or self-pay', sub:'Charity care, sliding fee schedule, or uninsured patients', id:'fqhc_selfpay' },
+];
+
+// ─── RESULT ROUTING ───────────────────────────────────────────────────────────
+function buildPrivateResult(sels) {
+  const has = x => sels.includes(x);
+  const hasMA = has('ma'), hasMCO = has('mco'), hasFFS = has('mffs_state'),
+        hasCHIP = has('chip'), hasMedFFS = has('mffs'), hasCom = has('commercial');
+  const hasAnyInsurance = hasMA || hasMCO || hasFFS || hasCHIP || hasMedFFS || hasCom;
+  if (!sels || sels.length === 0 || !hasAnyInsurance) return 'result_private_none';
+  if (hasMA && hasMCO && (hasFFS || hasCHIP)) return 'result_private_mixed_high';
+  if (hasMA && hasMCO) return 'result_private_ma_mco';
+  if (hasMA && hasCom && !hasMCO && !hasFFS && !hasCHIP) return 'result_private_ma_commercial';
+  if (hasMA && (hasFFS || hasCHIP)) return 'result_private_ma_medicaid';
+  if (hasMA) return 'result_private_ma_only';
+  if (hasMCO && hasCHIP) return 'result_private_mco_chip';
+  if (hasMCO) return 'result_private_mco_only';
+  if (hasFFS && hasCHIP) return 'result_private_medicaid_chip';
+  if (hasCHIP) return 'result_private_chip_only';
+  if (hasFFS) return 'result_private_medicaid_ffs_only';
+  if (hasMedFFS) return 'result_private_medicare_ffs_only';
+  if (hasCom) return 'result_private_commercial_only';
+  return 'result_private_none';
+}
+
+function buildFqhcResult(sels) {
+  if (!sels || sels.length === 0) return 'result_fqhc_base';
+  const has = x => sels.includes(x);
+  const hasFederal = has('fqhc_mco') || has('fqhc_mffs') || has('fqhc_chip') || has('fqhc_ma') || has('fqhc_mffs_med');
+  if (!hasFederal) return 'result_fqhc_base';
+  if ((has('fqhc_mco') || has('fqhc_ma')) && (has('fqhc_mffs') || has('fqhc_chip'))) return 'result_fqhc_full';
+  if (has('fqhc_mco') || has('fqhc_ma')) return 'result_fqhc_managed_care';
+  return 'result_fqhc_ffs';
+}
+
+// ─── TREE NODES ───────────────────────────────────────────────────────────────
+const TREE_NODES = {
+  start: {
+    q: 'What best describes your dental practice setting?',
+    hint: 'Select the option that most closely matches your practice type.',
+    opts: [
+      { icon:'ti-tooth',             label:'Private dental practice', sub:'Solo, group, or specialty practice — any ownership structure', next:'private_programs' },
+      { icon:'ti-building-hospital', label:'Institutional or safety-net dental', sub:'Hospital-based, FQHC, CHC, non-profit clinic, Indian Health Service, or VA dental', next:'institutional_type' },
+    ]
+  },
+  institutional_type: {
+    q: 'What type of institutional dental program are you?',
+    hint: 'Institutional providers have program-specific rules under CMS and HRSA.',
+    opts: [
+      { icon:'ti-building-community', label:'FQHC or look-alike', sub:'Including RHC, CHC, and migrant health centers with dental', next:'fqhc_programs' },
+      { icon:'ti-building-hospital',  label:'Hospital-based dental department', sub:'Outpatient or inpatient dental within a hospital system', next:'hospital_programs' },
+      { icon:'ti-heart',              label:'Non-profit or charitable dental clinic', sub:'501(c)(3) dental clinic, charity care program, or free clinic', next:'nonprofit_programs' },
+      { icon:'ti-shield',             label:'Indian Health Service, Tribal, or Urban Indian (I/T/U)', sub:'IHS-funded or tribal dental program', next:'result_itu' },
+      { icon:'ti-building',           label:'VA or DoD dental program', sub:'Veterans Affairs or Department of Defense dental', next:'result_va' },
+    ]
+  },
+};
+
+const HOSPITAL_OPTIONS = [
+  { icon:'ti-receipt',         label:'Medicare FFS (IPPS or OPPS)', sub:'Hospital billed under Inpatient or Outpatient Prospective Payment System', id:'hosp_ipps' },
+  { icon:'ti-heart-handshake', label:'Medicare Advantage', sub:'Contracted with one or more MA plans', id:'hosp_ma' },
+  { icon:'ti-building-community', label:'Medicaid (managed care or FFS)', sub:'State Medicaid program, MCO, or Medicaid managed care plan', id:'hosp_medicaid' },
+  { icon:'ti-baby-carriage',   label:'CHIP', sub:'Children\'s Health Insurance Program', id:'hosp_chip' },
+  { icon:'ti-credit-card',     label:'Commercial / private payers', sub:'Employer-sponsored PPO, DHMO, or indemnity plans', id:'hosp_commercial' },
+  { icon:'ti-user',            label:'Self-pay / charity care', sub:'Uninsured patients or hospital charity care program', id:'hosp_selfpay' },
+  { icon:'ti-building',        label:'Critical Access Hospital (CAH)', sub:'Designated CAH — different CMS payment methodology', id:'hosp_cah' },
+];
+
+function buildHospitalResult(sels) {
+  const has = x => sels.includes(x);
+  const hasIPPS   = has('hosp_ipps');
+  const hasMA     = has('hosp_ma');
+  const hasMed    = has('hosp_medicaid');
+  const hasCHIP   = has('hosp_chip');
+  const hasCAH    = has('hosp_cah');
+  const hasFederal = hasIPPS || hasMA || hasMed || hasCHIP;
+  if (hasCAH && !hasFederal) return 'result_hospital_limited';
+  if (!hasFederal) return 'result_hospital_limited';
+  if (hasIPPS && (hasMA || hasMed)) return 'result_hospital_full';
+  if (hasIPPS) return 'result_hospital_pa_limited';
+  if (hasMA || hasMed) return 'result_hospital_no_pa';
+  return 'result_hospital_assess';
+}
+
+const NONPROFIT_OPTIONS = [
+  { icon:'ti-building-community', label:'Medicaid managed care (MCO/PAHP)', sub:'Contracted with state Medicaid MCO or prepaid ambulatory health plan', id:'np_mco' },
+  { icon:'ti-receipt',            label:'Medicaid fee-for-service', sub:'Direct billing to state Medicaid program', id:'np_mffs' },
+  { icon:'ti-baby-carriage',      label:'CHIP', sub:'Children\'s Health Insurance Program', id:'np_chip' },
+  { icon:'ti-heart-handshake',    label:'Medicare Advantage', sub:'Contracted with one or more MA plans for dental benefits', id:'np_ma' },
+  { icon:'ti-file-invoice',       label:'Medicare FFS', sub:'Medically necessary dental billable to traditional Medicare', id:'np_mffs_med' },
+  { icon:'ti-credit-card',        label:'Commercial / private payers', sub:'Employer-sponsored PPO, DHMO, or indemnity plans', id:'np_commercial' },
+  { icon:'ti-user',               label:'Sliding scale or self-pay / charity care', sub:'Uninsured or underinsured patients, sliding fee schedule', id:'np_selfpay' },
+];
+
+function buildNonprofitResult(sels) {
+  const has = x => sels.includes(x);
+  const hasManaged = has('np_mco') || has('np_ma');
+  const hasFFS     = has('np_mffs') || has('np_chip') || has('np_mffs_med');
+  const hasFederal = hasManaged || hasFFS;
+  if (!hasFederal) return 'result_nonprofit_private';
+  if (hasManaged && hasFFS) return 'result_nonprofit_mixed';
+  if (hasManaged) return 'result_nonprofit_managed';
+  return 'result_nonprofit_ffs';
+}
+
+const MULTI_NODES = {
+  private_programs: {
+    q: 'Which payers does your practice participate with?',
+    hint: 'Select all that apply. Your combination determines which CMS interoperability, prior authorization, and electronic transaction rules affect your practice.',
+    opts: PROGRAM_OPTIONS,
+    resultFn: buildPrivateResult
+  },
+  fqhc_programs: {
+    q: 'Which payer programs does your FQHC dental program serve?',
+    hint: 'FQHCs have base HRSA reporting obligations plus additional CMS rules depending on payer mix.',
+    opts: FQHC_OPTIONS,
+    resultFn: buildFqhcResult
+  },
+  nonprofit_programs: {
+    q: 'Which payers and programs does your clinic serve?',
+    hint: 'Select all that apply. Non-profit and charitable dental clinics are subject to HIPAA and ONC information blocking rules as health care providers. Federal program participation adds additional CMS obligations.',
+    opts: NONPROFIT_OPTIONS,
+    resultFn: buildNonprofitResult
+  },
+  hospital_programs: {
+    q: 'How is your hospital paid, and which insurance programs do you accept for dental services?',
+    hint: 'Select all that apply. Your payment model and payer mix determine which CMS interoperability and prior authorization rules apply to your dental department.',
+    opts: HOSPITAL_OPTIONS,
+    resultFn: buildHospitalResult
+  }
+};
+
+// ─── RESULTS DATA ─────────────────────────────────────────────────────────────
+const RESULTS = {
+  result_private_ma_commercial: {
+    badge: { label:'Moderate–high regulatory impact', c:'amber' },
+    title: 'Medicare Advantage + commercial dental — federal PA rules apply to MA; commercial payers fall outside CMS interoperability mandates',
+    sub: 'This is one of the most common practice configurations. Your federal regulatory exposure flows entirely from the MA side — including MA supplemental dental benefits administered by commercial carriers.',
+    programs: [{ label:'Medicare Advantage', c:'blue' }, { label:'Commercial / private', c:'gray' }],
+    hl: { c:'blue', title:'MA supplemental dental administered by a commercial carrier is still subject to CMS-0062-P', text:'Many commercial dental carriers administer MA supplemental dental benefits under contract with MA organizations. Even when the administrative infrastructure looks like a commercial dental plan, the underlying program is Medicare Advantage — meaning CMS-0062-P prior authorization FHIR API requirements apply to that benefit line. Confirm with each carrier whether the dental contract is a standalone commercial plan, an MA supplemental benefit, or both.' },
+    regs: [
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024) — MA scope', desc:'Applies to MA organizations and their delegates, including commercial carriers administering MA supplemental dental benefits. When finalized, payers must implement FHIR-based PA APIs (Da Vinci PAS, CDex, CRD). Providers need PMS capability to receive electronic PA decisions.', tags:[{l:'Proposed',c:'amber'},{l:'MA contracts',c:'blue'},{l:'Carrier delegates',c:'blue'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0057-P — Patient & Provider Access APIs', cite:'85 FR 25510', desc:'MA organizations must implement FHIR Patient Access and Provider Access APIs. Applies to the MA plan even when dental benefits are delegated to a commercial carrier.', tags:[{l:'Final Rule',c:'green'},{l:'FHIR R4',c:'blue'}], ico:'ti-api', c:'blue' },
+      { name:'HIPAA TCS — commercial dental', cite:'45 CFR Part 162', desc:'Commercial (non-MA) dental contracts are governed by HIPAA transaction standards: X12 837D claims, 270/271 eligibility, 278/277 prior authorization.', tags:[{l:'Active',c:'green'},{l:'Commercial',c:'gray'}], ico:'ti-transfer', c:'teal' },
+      { name:'CMS-0053-P Electronic Attachment', cite:'NPRM — Pending', desc:'When finalized, applies to MA and HIPAA-covered commercial transactions. Structured X12 275 attachments for PA and claims with supporting documentation required across both benefit lines.', tags:[{l:'Pending',c:'amber'},{l:'MA + Commercial',c:'blue'}], ico:'ti-paperclip', c:'amber' },
+      { name:'ONC Cures Act — Provider actor', cite:'85 FR 25642', desc:'As a health care provider you are prohibited from information blocking regardless of payer mix. Patients must be able to access their dental records.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-search', head:'Identify MA vs. commercial contracts', text:'For each carrier, determine whether the contract is a standalone commercial plan, an MA supplemental benefit, or both. This determines which federal rules govern PA workflows.' },
+      { ico:'ti-plug',   head:'PMS must handle both pathways', text:'Your PMS needs to support FHIR PA API receiving for MA benefit lines AND current X12 278/277 EDI for standalone commercial dental simultaneously during transition.' },
+      { ico:'ti-shield', head:'DDE exception exposure', text:'PA requests submitted through a commercial carrier portal for an MA benefit may constitute DDE under 45 CFR 162.923(b). Assess per contract, especially for high-PA service lines.' },
+      { ico:'ti-list-check', head:'CDT accuracy across benefit lines', text:'PA documentation requirements may differ between the same carrier\'s commercial plan and MA supplemental benefit. Verify CDT codes and PA thresholds for each contract type separately.' },
+    ],
+    actions: [
+      'Audit each commercial carrier contract to determine whether it is a standalone commercial plan, an MA supplemental benefit, or both',
+      'Request CMS-0062-P implementation timeline from each carrier for MA supplemental dental benefit administration',
+      'Confirm your PMS supports both FHIR PA API receiving (MA) and X12 EDI (commercial)',
+      'Assess DDE exposure per payer: identify which PA submissions go through carrier web portals for MA-funded benefits',
+      'Set Federal Register alerts for CMS-0062-P and CMS-0053-P finalization',
+    ]
+  },
+  result_private_ma_only: {
+    badge: { label:'High regulatory impact', c:'coral' },
+    title: 'Medicare Advantage — FHIR prior authorization and interoperability requirements in scope',
+    sub: 'MA plan participation puts your practice directly in scope for CMS-0062-P proposed FHIR prior authorization requirements and CMS-0057-P interoperability rules.',
+    programs: [{ label:'Medicare Advantage', c:'blue' }],
+    hl: { c:'blue', title:'CMS-0062-P targets MA plans directly', text:'CMS-0062-P proposes to require MA plans to implement FHIR-based PA APIs using Da Vinci PAS, CDex, and CRD implementation guides. The obligation falls on the plan, but providers must have PMS capable of receiving and acting on electronic PA decisions. Assess your software now — do not wait for finalization.' },
+    regs: [
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'Requires MA plans to implement FHIR-based PA APIs. Dental providers must be able to receive electronic PA status, decisions, and requirements. Da Vinci PAS IG governs PA submission; CDex governs clinical data exchange for attachments.', tags:[{l:'Proposed',c:'amber'},{l:'FHIR R4',c:'blue'},{l:'MA scope',c:'blue'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0057-P — Patient & Provider Access APIs', cite:'85 FR 25510', desc:'MA plans must implement FHIR Patient Access API and Provider Access API. Relevant for care coordination and continuity of care documents.', tags:[{l:'Final Rule',c:'green'},{l:'FHIR R4',c:'blue'}], ico:'ti-api', c:'blue' },
+      { name:'HIPAA TCS — 278/270/271', cite:'45 CFR Part 162', desc:'Current X12 PA and eligibility standards remain active for MA. EDI clearinghouse must support CDT-coded 278 PA requests and 270/271 eligibility verification.', tags:[{l:'Active',c:'green'},{l:'CDT required',c:'teal'}], ico:'ti-transfer', c:'teal' },
+      { name:'CMS-0053-P', cite:'NPRM — Pending', desc:'Electronic attachment rule applies to MA transactions. Structured X12 275 attachments would replace fax/paper for PA documentation when finalized.', tags:[{l:'Pending',c:'amber'}], ico:'ti-paperclip', c:'amber' },
+    ],
+    consids: [
+      { ico:'ti-plug',   head:'Da Vinci PAS readiness', text:'Ask your PMS vendor specifically about Da Vinci PAS and CDex IG implementation — required under CMS-0062-P for MA.' },
+      { ico:'ti-shield', head:'DDE exception status', text:'If MA PA submissions use Direct Data Entry portals, assess your DDE exception exposure under 45 CFR 162.923(b) before sunset provisions take effect.' },
+      { ico:'ti-list-check', head:'CDT codes for PA services', text:'MA dental PA most commonly required for: implants, full dentures, orthodontia, complex oral surgery. Verify CDT accuracy for these service categories.' },
+      { ico:'ti-clock',  head:'Compliance window', text:'CMS-0062-P proposes 12–18 month compliance windows post-finalization. Watch for final rule publication.' },
+    ],
+    actions: [
+      'Contact your MA plan provider relations team to request their CMS-0062-P implementation roadmap',
+      'Ask your PMS vendor for Da Vinci PAS and CDex implementation timeline',
+      'Document which dental services require PA under each MA contract and verify CDT code accuracy',
+      'Assess whether your clearinghouse will support X12 275 electronic attachments under CMS-0053-P',
+      'Set Federal Register alert for CMS-0062-P final rule publication',
+    ]
+  },
+  result_private_ma_mco: {
+    badge: { label:'High regulatory impact', c:'coral' },
+    title: 'Medicare Advantage + Medicaid managed care — maximum CMS interoperability exposure',
+    sub: 'Participation in both MA and Medicaid MCO plans triggers the full scope of CMS prior authorization, FHIR API, and electronic transaction requirements.',
+    programs: [{ label:'Medicare Advantage', c:'blue' }, { label:'Medicaid MCO', c:'teal' }],
+    hl: { c:'amber', title:'Dual exposure: CMS-0062-P affects both program lines on potentially different timelines', text:'Your MA and Medicaid MCO plans will each be required to implement FHIR-based PA APIs under CMS-0062-P when finalized. Confirm your PMS can receive and process electronic PA decisions from both program lines — which may use different FHIR IG versions on different compliance timelines.' },
+    regs: [
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'Requires MA and Medicaid MCO plans to implement FHIR PA APIs (Da Vinci PAS/CDex/CRD). Applies to both your MA and Medicaid MCO contracts.', tags:[{l:'Proposed',c:'amber'},{l:'FHIR R4',c:'blue'},{l:'Both programs',c:'coral'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0057-P Interoperability Rule', cite:'85 FR 25510', desc:'MA and Medicaid MCO plans must implement Patient Access and Provider Access FHIR APIs.', tags:[{l:'Final Rule',c:'green'},{l:'FHIR R4',c:'blue'}], ico:'ti-api', c:'blue' },
+      { name:'HIPAA TCS', cite:'45 CFR Part 162', desc:'Current X12 PA and eligibility standards in effect. Verify CDT-coded dental transactions are supported for both programs.', tags:[{l:'Active',c:'green'},{l:'CDT',c:'teal'}], ico:'ti-transfer', c:'teal' },
+      { name:'CMS-0053-P Electronic Attachment', cite:'NPRM — Pending', desc:'Would require structured X12 275 attachments for PA and claims across both program lines.', tags:[{l:'Pending',c:'amber'},{l:'X12 275',c:'blue'}], ico:'ti-paperclip', c:'amber' },
+    ],
+    consids: [
+      { ico:'ti-plug',   head:'Dual-program PMS readiness', text:'Confirm your PMS has a FHIR PA API roadmap covering both MA (Da Vinci PAS) and Medicaid MCO timelines. State MCO IG variations may differ from the federal baseline.' },
+      { ico:'ti-shield', head:'DDE exception risk', text:'If your PMS or clearinghouse uses Direct Data Entry for PA submissions for either program, assess 45 CFR 162.923(b) DDE exception exposure.' },
+      { ico:'ti-list-check', head:'CDT code accuracy', text:'Audit coding workflow especially for high-PA services (ortho, implants, oral surgery) across both program lines.' },
+      { ico:'ti-clock',  head:'Staggered timelines', text:'CMS-0062-P compliance windows for MA and Medicaid may differ. Track each payer\'s implementation schedule separately.' },
+    ],
+    actions: [
+      'Contact each MA and Medicaid MCO plan for their CMS-0062-P FHIR PA API rollout schedule',
+      'Ask your PMS vendor for their Da Vinci PAS and CDex implementation roadmap',
+      'Audit CDT code accuracy for services that routinely require PA across both program lines',
+      'Assess your clearinghouse\'s X12 275 readiness for CMS-0053-P',
+      'Document current PA submission methods per payer to identify DDE exception exposure',
+    ]
+  },
+  result_private_mixed_high: {
+    badge: { label:'High regulatory impact', c:'coral' },
+    title: 'Multiple CMS programs — layered interoperability and PA requirements',
+    sub: 'Your combination of managed care and fee-for-service programs creates layered federal obligations with different compliance timelines per program.',
+    programs: [{ label:'Medicare Advantage', c:'blue' }, { label:'Medicaid MCO', c:'teal' }, { label:'Medicaid FFS', c:'green' }, { label:'CHIP', c:'purple' }],
+    hl: { c:'amber', title:'Build a per-payer compliance matrix — timelines diverge by program type', text:'Each CMS program has distinct rulemaking timelines. MA contracts fall under CMS-0062-P; Medicaid MCO plans are covered by both CMS-0062-P and state Medicaid interoperability rules; Medicaid FFS and CHIP adds state-agency electronic transaction requirements.' },
+    regs: [
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'FHIR PA API requirements for MA and Medicaid MCO plans.', tags:[{l:'Proposed',c:'amber'},{l:'MA + MCO',c:'blue'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0057-P', cite:'85 FR 25510', desc:'MA and Medicaid MCO plans must implement Patient Access and Provider Access FHIR APIs.', tags:[{l:'Final Rule',c:'green'},{l:'FHIR R4',c:'blue'}], ico:'ti-api', c:'blue' },
+      { name:'CMS-0053-P', cite:'NPRM — Pending', desc:'Covers all HIPAA-covered transactions including Medicaid FFS and CHIP. Structured X12 275 attachments when finalized.', tags:[{l:'Pending',c:'amber'},{l:'All programs',c:'coral'}], ico:'ti-paperclip', c:'amber' },
+      { name:'State Medicaid interoperability', cite:'CMS-0057-P State Requirements', desc:'State Medicaid FFS and CHIP follow state Medicaid IT frameworks.', tags:[{l:'Active',c:'green'},{l:'State-specific',c:'teal'}], ico:'ti-map', c:'teal' },
+    ],
+    consids: [
+      { ico:'ti-list-check', head:'Per-payer compliance matrix', text:'Build a matrix tracking each program\'s applicable rules, payer contacts, and expected implementation timelines.' },
+      { ico:'ti-plug',   head:'PMS and clearinghouse scope', text:'Verify your PMS supports FHIR PA APIs for managed care AND current X12 for FFS/CHIP simultaneously during transition.' },
+      { ico:'ti-baby-carriage', head:'CHIP dental benefit scope', text:'Confirm whether your state CHIP dental is MCO-administered (CMS-0062-P applies) or FFS (CMS-0053-P applies).' },
+      { ico:'ti-shield', head:'DDE exception monitoring', text:'Practices with high DDE reliance across multiple programs face compounding risk.' },
+    ],
+    actions: [
+      'Build a per-payer compliance matrix: list each plan, program type, applicable rule, and expected timeline',
+      'Contact each managed care plan (MA and MCO) for CMS-0062-P FHIR PA API rollout plan',
+      'Confirm with your state Medicaid agency whether CHIP contracts follow MCO or FFS rules',
+      'Ask your PMS vendor for a combined FHIR + X12 roadmap covering all program types',
+    ]
+  },
+  result_private_ma_medicaid: {
+    badge: { label:'High regulatory impact', c:'coral' },
+    title: 'Medicare Advantage + Medicaid FFS or CHIP — different federal rules apply to each line',
+    sub: 'CMS-0062-P FHIR PA requirements apply to your MA plan; Medicaid FFS and CHIP follow HIPAA transaction standards and the pending CMS-0053-P electronic attachment rule.',
+    programs: [{ label:'Medicare Advantage', c:'blue' }, { label:'Medicaid FFS', c:'teal' }, { label:'CHIP', c:'purple' }],
+    hl: { c:'amber', title:'CMS-0062-P applies to MA; CMS-0053-P applies to Medicaid FFS and CHIP', text:'These are governed by different frameworks. Your MA PA workflows will shift to FHIR APIs; your Medicaid FFS and CHIP PA workflows will transition to structured X12 275 electronic attachments. You need software handling both pathways simultaneously during transition.' },
+    regs: [
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024) — MA scope', desc:'FHIR PA API requirements apply to your MA plan. Does not apply to Medicaid FFS or CHIP directly.', tags:[{l:'Proposed',c:'amber'},{l:'MA only',c:'blue'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0053-P', cite:'NPRM — Medicaid/CHIP scope', desc:'Structured X12 275 electronic attachments required for PA and claims for Medicaid FFS and CHIP when finalized.', tags:[{l:'Pending',c:'amber'},{l:'Medicaid/CHIP',c:'teal'}], ico:'ti-paperclip', c:'teal' },
+      { name:'State Medicaid and CHIP IT rules', cite:'CMS-0057-P State Requirements', desc:'State Medicaid agency and CHIP program electronic transaction requirements apply.', tags:[{l:'State-specific',c:'teal'},{l:'Active',c:'green'}], ico:'ti-map', c:'teal' },
+      { name:'HIPAA TCS', cite:'45 CFR Part 162', desc:'CDT-coded 278/277 and 270/271 transactions required for all programs.', tags:[{l:'Active',c:'green'}], ico:'ti-transfer', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-baby-carriage', head:'CHIP benefit design', text:'Determine if CHIP patients are in managed care CHIP (CMS-0062-P may apply) or FFS CHIP (CMS-0053-P applies).' },
+      { ico:'ti-plug', head:'Dual-pathway PMS', text:'PMS must support FHIR PA receiving (MA) and X12 EDI (Medicaid FFS and CHIP) simultaneously.' },
+      { ico:'ti-map', head:'State requirements', text:'Contact your state Medicaid agency for current electronic attachment requirements.' },
+      { ico:'ti-list-check', head:'CDT accuracy', text:'Verify CDT code accuracy across all programs for high-PA service categories.' },
+    ],
+    actions: [
+      'Determine whether CHIP patients are in managed care or FFS CHIP',
+      'Contact your state Medicaid agency for current electronic PA and attachment requirements',
+      'Request CMS-0062-P implementation timeline from your MA plan',
+      'Verify your PMS and clearinghouse support both FHIR PA (MA) and X12 EDI (Medicaid/CHIP)',
+    ]
+  },
+  result_private_mco_only: {
+    badge: { label:'High regulatory impact', c:'coral' },
+    title: 'Medicaid managed care — CMS-0062-P and state interoperability rules apply',
+    sub: 'Medicaid MCO participation triggers CMS-0062-P FHIR PA requirements and state Medicaid interoperability obligations. State variation is the key complexity factor.',
+    programs: [{ label:'Medicaid MCO', c:'teal' }],
+    hl: { c:'teal', title:'State variation drives compliance complexity for Medicaid MCO', text:'Medicaid managed care is state-administered and MCO contract requirements vary substantially. Your MCO plan\'s FHIR PA API implementation depends on both CMS-0062-P and your state\'s MCO contract standards.' },
+    regs: [
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'Medicaid MCOs must implement FHIR PA APIs when finalized.', tags:[{l:'Proposed',c:'amber'},{l:'MCO scope',c:'teal'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0057-P — State Medicaid Interop', cite:'85 FR 25510', desc:'State Medicaid agencies and MCO plans must implement FHIR Patient Access and Provider Access APIs.', tags:[{l:'Active',c:'green'},{l:'State MCO',c:'teal'}], ico:'ti-api', c:'blue' },
+      { name:'CMS-0053-P', cite:'NPRM — Pending', desc:'Structured X12 275 attachments for Medicaid PA and claims when finalized.', tags:[{l:'Pending',c:'amber'}], ico:'ti-paperclip', c:'amber' },
+      { name:'State MCO contract requirements', cite:'State-specific', desc:'Your state MCO contract may include electronic PA requirements that precede federal rules.', tags:[{l:'State-specific',c:'teal'},{l:'Review contract',c:'amber'}], ico:'ti-map', c:'teal' },
+    ],
+    consids: [
+      { ico:'ti-map',   head:'State MCO rules first', text:'Contact your MCO plan\'s provider relations and state Medicaid agency for current and planned electronic PA requirements.' },
+      { ico:'ti-plug',  head:'MCO FHIR readiness', text:'Ask your PMS vendor whether Da Vinci PA implementation covers state-level MCO IG variations.' },
+      { ico:'ti-tooth', head:'Dental carve-in vs. carve-out', text:'Confirm whether dental is carved in to your MCO or carved out to a separate PAHP.' },
+      { ico:'ti-shield',head:'DDE exception', text:'Assess DDE portal use for Medicaid MCO PA submissions and plan for transition.' },
+    ],
+    actions: [
+      'Review your MCO provider manual and contract for existing or planned electronic PA requirements',
+      'Contact your state Medicaid agency or MCO provider relations for FHIR implementation timelines',
+      'Determine whether dental benefits are carved in to the MCO or carved out to a separate PAHP',
+      'Ask your PMS vendor about Da Vinci PAS readiness for Medicaid MCO state IG variations',
+    ]
+  },
+  result_private_mco_chip: {
+    badge: { label:'High regulatory impact', c:'coral' },
+    title: 'Medicaid MCO + CHIP — state-administered programs with converging federal rules',
+    sub: 'Your Medicaid MCO and CHIP participation share a common regulatory framework, but CHIP dental benefit design varies significantly by state.',
+    programs: [{ label:'Medicaid MCO', c:'teal' }, { label:'CHIP', c:'purple' }],
+    hl: { c:'purple', title:'CHIP dental benefit design determines whether CMS-0062-P applies', text:'In many states CHIP dental is administered through MCO plans — meaning the same FHIR PA API requirements covering your MCO contracts also apply to CHIP patients. In other states CHIP has a separate dental benefit manager. Confirm your state CHIP dental benefit structure.' },
+    regs: [
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'Applies to Medicaid MCOs and CHIP plans with managed care dental.', tags:[{l:'Proposed',c:'amber'},{l:'MCO + CHIP MCO',c:'teal'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0057-P — CHIP Interoperability', cite:'85 FR 25510', desc:'CHIP plans must implement FHIR Patient Access APIs.', tags:[{l:'Active',c:'green'},{l:'CHIP scope',c:'purple'}], ico:'ti-api', c:'blue' },
+      { name:'CHIP dental state rules', cite:'State-specific', desc:'CHIP dental benefits, PA requirements, and CDT reporting vary by state.', tags:[{l:'State-specific',c:'purple'},{l:'Verify',c:'amber'}], ico:'ti-baby-carriage', c:'purple' },
+      { name:'CMS-0053-P', cite:'NPRM — Pending', desc:'Covers CHIP as a HIPAA-covered program. Structured attachments required when finalized.', tags:[{l:'Pending',c:'amber'}], ico:'ti-paperclip', c:'amber' },
+    ],
+    consids: [
+      { ico:'ti-baby-carriage', head:'CHIP dental PA specifics', text:'Verify whether your state CHIP program has dental PA requirements for pediatric services.' },
+      { ico:'ti-map',   head:'State CHIP administrator', text:'Identify whether CHIP dental is administered by the same MCO, a separate PAHP, or a carve-out contractor.' },
+      { ico:'ti-plug',  head:'Unified vs. separate portals', text:'Confirm whether PA submissions to MCO and CHIP use the same electronic pathway.' },
+      { ico:'ti-list-check', head:'Pediatric CDT codes', text:'Ensure your PMS covers pediatric CDT codes accurately for CHIP-covered services.' },
+    ],
+    actions: [
+      'Contact your state CHIP agency to confirm dental benefit administration structure',
+      'Request FHIR PA API implementation timelines from both your MCO and CHIP dental plan',
+      'Verify pediatric CDT code accuracy for CHIP-covered services',
+      'Monitor state Medicaid and CHIP agency bulletins for electronic transaction updates',
+    ]
+  },
+  result_private_medicaid_chip: {
+    badge: { label:'Moderate–high impact', c:'amber' },
+    title: 'Medicaid FFS + CHIP — state electronic transaction rules and pending attachment standard',
+    sub: 'Primarily governed by state Medicaid agencies and HIPAA transaction standards. CMS-0053-P electronic attachments are the key upcoming federal requirement.',
+    programs: [{ label:'Medicaid FFS', c:'teal' }, { label:'CHIP', c:'purple' }],
+    hl: { c:'teal', title:'CMS-0062-P FHIR PA requirements do not apply to Medicaid FFS', text:'CMS-0062-P targets managed care plans, not Medicaid FFS. Your primary federal compliance focus is CMS-0053-P electronic attachment standard and your state Medicaid agency\'s existing electronic transaction requirements.' },
+    regs: [
+      { name:'CMS-0053-P', cite:'NPRM — Pending', desc:'Structured X12 275 electronic attachments required for PA and claims in Medicaid FFS and CHIP when finalized.', tags:[{l:'Pending',c:'amber'},{l:'Medicaid FFS + CHIP',c:'teal'}], ico:'ti-paperclip', c:'amber' },
+      { name:'State Medicaid FFS interoperability', cite:'CMS-0057-P State Requirements', desc:'State Medicaid agencies must implement FHIR Patient Access APIs.', tags:[{l:'Active',c:'green'},{l:'State-specific',c:'teal'}], ico:'ti-map', c:'teal' },
+      { name:'HIPAA TCS', cite:'45 CFR Part 162', desc:'Current X12 278/277 and 270/271 standards active. CDT-coded transactions required.', tags:[{l:'Active',c:'green'}], ico:'ti-transfer', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-map',   head:'State requirements first', text:'Review your state Medicaid agency for current PA submission requirements.' },
+      { ico:'ti-file',  head:'Attachment workflow audit', text:'Identify which services require attachments and assess your PMS structured export capability.' },
+      { ico:'ti-baby-carriage', head:'CHIP benefit structure', text:'Confirm your state CHIP dental benefit administration and PA requirements.' },
+      { ico:'ti-plug',  head:'Clearinghouse X12 275 readiness', text:'Ask your clearinghouse about X12 275 support and CMS-0053-P compliance timeline.' },
+    ],
+    actions: [
+      'Review your state Medicaid provider manual for current electronic PA requirements',
+      'Contact your clearinghouse about X12 275 electronic attachment support',
+      'Audit which services commonly require attachments in Medicaid FFS and CHIP billing',
+      'Monitor CMS-0053-P for finalization',
+    ]
+  },
+  result_private_chip_only: {
+    badge: { label:'Moderate impact', c:'blue' },
+    title: 'CHIP — state-defined dental benefits with pending federal attachment rules',
+    sub: 'Governed by state benefit design and HIPAA transaction standards. CMS-0053-P is the key upcoming federal requirement.',
+    programs: [{ label:'CHIP', c:'purple' }],
+    hl: { c:'purple', title:'CHIP dental rules are state-defined and vary widely', text:'If CHIP dental is MCO-administered in your state, CMS-0062-P FHIR PA rules may apply through that MCO plan. If FFS or separate PAHP, CMS-0053-P applies. Confirm your state CHIP structure.' },
+    regs: [
+      { name:'CMS-0053-P', cite:'NPRM — Pending', desc:'Structured electronic attachments required for CHIP dental PA and claims when finalized.', tags:[{l:'Pending',c:'amber'},{l:'CHIP scope',c:'purple'}], ico:'ti-paperclip', c:'amber' },
+      { name:'CHIP dental state rules', cite:'State-specific', desc:'PA requirements, CDT coverage, and documentation standards are state-defined.', tags:[{l:'State-specific',c:'purple'}], ico:'ti-baby-carriage', c:'purple' },
+      { name:'HIPAA TCS', cite:'45 CFR Part 162', desc:'Eligibility and PA transactions must be CDT-coded via HIPAA-compliant clearinghouse.', tags:[{l:'Active',c:'green'}], ico:'ti-transfer', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-baby-carriage', head:'CHIP admin structure', text:'Determine if CHIP dental is MCO-administered, PAHP-administered, or FFS.' },
+      { ico:'ti-file',  head:'Attachment workflow', text:'Assess your PMS ability to produce structured attachments for CHIP PA approvals.' },
+      { ico:'ti-list-check', head:'Pediatric CDT accuracy', text:'Verify CDT code accuracy for pediatric-specific services.' },
+      { ico:'ti-clock', head:'Monitor MCO scope', text:'If CHIP dental is MCO-administered, monitor whether CMS-0062-P will apply.' },
+    ],
+    actions: [
+      'Review your state CHIP dental provider manual for current PA requirements',
+      'Confirm whether CHIP dental is MCO-administered, PAHP-administered, or FFS',
+      'Verify pediatric CDT code accuracy for commonly billed CHIP services',
+      'Ask your clearinghouse about X12 275 support for CMS-0053-P',
+    ]
+  },
+  result_private_medicaid_ffs_only: {
+    badge: { label:'Moderate impact', c:'blue' },
+    title: 'Medicaid FFS — state agency rules and pending electronic attachment standard',
+    sub: 'Primarily governed by your state Medicaid agency and HIPAA transaction standards. CMS-0062-P does not apply to FFS; CMS-0053-P is the key upcoming requirement.',
+    programs: [{ label:'Medicaid FFS', c:'teal' }],
+    hl: { c:'teal', title:'State Medicaid agency requirements are your primary compliance focus', text:'Unlike managed care, Medicaid FFS compliance is primarily governed by your state Medicaid agency. Many states already have electronic submission requirements ahead of federal rules.' },
+    regs: [
+      { name:'CMS-0053-P', cite:'NPRM — Pending', desc:'Structured X12 275 electronic attachments for Medicaid FFS PA and claims when finalized.', tags:[{l:'Pending',c:'amber'},{l:'Medicaid FFS',c:'teal'}], ico:'ti-paperclip', c:'amber' },
+      { name:'State Medicaid FFS interoperability', cite:'CMS-0057-P State Req.', desc:'State Medicaid agencies must implement FHIR Patient Access APIs.', tags:[{l:'Active',c:'green'},{l:'State-specific',c:'teal'}], ico:'ti-map', c:'teal' },
+      { name:'HIPAA TCS', cite:'45 CFR Part 162', desc:'Current X12 PA and eligibility standards active. CDT-coded transactions required.', tags:[{l:'Active',c:'green'}], ico:'ti-transfer', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-map',   head:'State rules first', text:'Review your state Medicaid dental provider manual for electronic submission requirements.' },
+      { ico:'ti-file',  head:'Attachment workflow', text:'Identify documentation you submit for PA approvals and assess your PMS structured export capability.' },
+      { ico:'ti-plug',  head:'Clearinghouse coverage', text:'Verify your clearinghouse supports Medicaid FFS dental transactions and X12 275.' },
+      { ico:'ti-shield',head:'CDT accuracy', text:'Ensure your PMS CDT code set is current for high-PA services.' },
+    ],
+    actions: [
+      'Review your state Medicaid dental provider manual for current electronic PA requirements',
+      'Ask your clearinghouse about X12 275 support and CMS-0053-P readiness',
+      'Audit CDT code accuracy for services that commonly require PA',
+      'Monitor CMS-0053-P progress and your state Medicaid agency for announcements',
+    ]
+  },
+  result_private_medicare_ffs_only: {
+    badge: { label:'Low–moderate impact', c:'green' },
+    title: 'Medicare FFS — limited dental coverage; CMS-0062-P does not apply',
+    sub: 'Traditional Medicare covers dental only in limited medically necessary circumstances. CMS-0062-P targets MA plans, not Medicare FFS.',
+    programs: [{ label:'Medicare FFS', c:'blue' }],
+    hl: { c:'blue', title:'CMS-0062-P does not apply to Medicare fee-for-service', text:'CMS-0062-P proposed FHIR PA API requirements target Medicare Advantage plans. Your Medicare FFS dental billing follows existing HIPAA transaction standards and Medicare LCD/NCD coverage policies.' },
+    regs: [
+      { name:'HIPAA TCS — 837D/278/270/271', cite:'45 CFR Part 162', desc:'Current X12 claims, PA, and eligibility standards apply. CDT-to-ICD crosswalk required for medically necessary dental claims.', tags:[{l:'Active',c:'green'}], ico:'ti-transfer', c:'blue' },
+      { name:'Medicare LCD/NCD Coverage Policies', cite:'CMS Coverage Guidelines', desc:'Local Coverage Determinations govern covered dental services. Verify current coverage criteria with your MAC.', tags:[{l:'Active',c:'green'},{l:'MAC-specific',c:'teal'}], ico:'ti-file-text', c:'blue' },
+      { name:'CMS-0062-P', cite:'Not applicable to Medicare FFS', desc:'FHIR PA API requirements apply to MA plans, not Medicare FFS.', tags:[{l:'Not in scope',c:'gray'}], ico:'ti-ban', c:'gray' },
+    ],
+    consids: [
+      { ico:'ti-file-text', head:'LCD compliance', text:'Review your MAC\'s LCD for covered dental services and pre-authorization requirements.' },
+      { ico:'ti-shield', head:'Medical necessity documentation', text:'Medicare dental claims require strong medical necessity documentation linked to a medical condition.' },
+      { ico:'ti-clock', head:'Monitor Medicare dental expansion', text:'Congressional proposals to expand Medicare dental coverage are ongoing.' },
+      { ico:'ti-plug',  head:'Clearinghouse Medicare support', text:'Verify clearinghouse supports Medicare FFS dental 837D and 278 transactions with your MAC.' },
+    ],
+    actions: [
+      'Review your MAC\'s current LCD for covered dental services and pre-authorization requirements',
+      'Verify clearinghouse support for Medicare FFS dental 837D claims and 278 PA transactions',
+      'Maintain CDT-to-ICD crosswalk documentation for medically necessary dental procedures',
+      'Monitor CMS for Medicare dental benefit expansion proposals',
+    ]
+  },
+  result_private_commercial_only: {
+    badge: { label:'Low regulatory impact', c:'green' },
+    title: 'Commercial / private payers only — HIPAA transaction standards and ONC information blocking apply',
+    sub: 'Without federal program participation, you have no direct CMS interoperability or prior authorization exposure. HIPAA and ONC provider-actor obligations fully apply.',
+    programs: [{ label:'Commercial / private', c:'gray' }],
+    hl: { c:'blue', title:'Verify no MA supplemental contracts are hidden in commercial arrangements', text:'CMS-0062-P and CMS-0057-P apply to federally regulated plans (MA, Medicaid managed care, CHIP). Standalone commercial dental plans are not subject to these rules. However, if any commercial carrier contracts are actually MA supplemental dental benefits, those benefit lines do fall under the MA regulatory framework.' },
+    regs: [
+      { name:'HIPAA TCS', cite:'45 CFR Part 162', desc:'Current X12 standards for dental claims (837D), eligibility (270/271), and PA (278) apply. Clearinghouse must support CDT-coded dental transactions.', tags:[{l:'Active',c:'green'}], ico:'ti-transfer', c:'blue' },
+      { name:'ONC Cures Act — Provider actor', cite:'85 FR 25642', desc:'As a health care provider, you are prohibited from information blocking. Patients must be able to access their records.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+      { name:'HIPAA Privacy & Security', cite:'45 CFR Parts 160/164', desc:'All dental practices are covered entities. Privacy, Security, and Breach Notification rules apply. Ensure PMS vendor has a signed BAA.', tags:[{l:'Always applies',c:'blue'}], ico:'ti-shield', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-search', head:'Verify no MA supplemental contracts', text:'Confirm none of your commercial contracts are MA supplemental dental benefits — if they are, MA regulatory rules apply.' },
+      { ico:'ti-shield', head:'HIPAA compliance', text:'Verify PMS vendor has a signed BAA, adequate Security Rule controls, and audit logging.' },
+      { ico:'ti-ban',   head:'Patient access rights', text:'HIPAA Right of Access and ONC information blocking require timely provision of records.' },
+      { ico:'ti-clock', head:'Future program participation', text:'If you join an MA, Medicaid, or CHIP program, regulatory requirements will increase substantially.' },
+    ],
+    actions: [
+      'Confirm whether any commercial carrier contracts are MA supplemental dental benefits',
+      'Verify your PMS vendor has a current signed Business Associate Agreement',
+      'Establish a HIPAA Right of Access response process for patient record requests',
+      'Review your PMS contract for data portability and export terms',
+    ]
+  },
+  result_private_none: {
+    badge: { label:'Minimal regulatory impact', c:'green' },
+    title: 'Self-pay only — HIPAA obligations apply; federal HIT regulatory exposure is minimal',
+    sub: 'Without insurance contracts of any kind, you have no direct CMS program regulatory exposure. Core HIPAA and ONC provider-actor obligations still apply.',
+    programs: [],
+    regs: [
+      { name:'HIPAA Privacy & Security', cite:'45 CFR Parts 160/164', desc:'All dental practices are covered entities. Ensure your PMS vendor has a signed BAA and adequate security controls.', tags:[{l:'Always applies',c:'blue'}], ico:'ti-shield', c:'blue' },
+      { name:'ONC Cures Act — Provider actor', cite:'85 FR 25642', desc:'As a health care provider, you may not block patient access to their records.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-shield', head:'HIPAA BAA', text:'Verify your PMS vendor has a current signed Business Associate Agreement.' },
+      { ico:'ti-ban',   head:'Patient data access', text:'HIPAA Right of Access requires timely provision of records.' },
+      { ico:'ti-clock', head:'Future participation', text:'If you ever accept insurance, regulatory requirements will increase substantially.' },
+      { ico:'ti-plug',  head:'Data portability', text:'Review your PMS contract for data portability rights before renewing.' },
+    ],
+    actions: [
+      'Verify your PMS vendor has a current signed Business Associate Agreement',
+      'Establish a HIPAA Right of Access response process',
+      'Review your PMS contract for data portability and export terms',
+    ]
+  },
+  result_nonprofit_mixed: {
+    badge: { label:'Moderate–high regulatory impact', c:'amber' },
+    title: 'Non-profit dental clinic — managed care and FFS participation trigger layered CMS obligations',
+    sub: 'Your clinic participates in both managed care (MA or Medicaid MCO) and fee-for-service programs. This creates layered CMS obligations: FHIR-based PA requirements for managed care, electronic attachment standards for FFS, and HIPAA and ONC information blocking rules as baseline obligations.',
+    programs: [{ label:'Non-profit clinic', c:'teal' }, { label:'Medicaid MCO / MA', c:'blue' }, { label:'Medicaid FFS / CHIP', c:'green' }],
+    hl: { c:'amber', title:'Non-profit clinics are not FQHCs — HRSA UDS+ reporting does not apply unless separately designated', text:'Unlike FQHCs, 501(c)(3) dental clinics are not subject to HRSA Uniform Data System reporting requirements unless your clinic holds a separate FQHC or look-alike designation. Your federal obligations flow from program participation (CMS rules) and provider status under HIPAA and the ONC Cures Act, not from HRSA grant conditions.' },
+    regs: [
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'FHIR PA API requirements apply to your Medicaid MCO and MA plan contracts when finalized. Payers implement; your clinic must be able to receive electronic PA decisions.', tags:[{l:'Proposed',c:'amber'},{l:'MCO/MA scope',c:'blue'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0053-P Electronic Attachment', cite:'NPRM — Pending', desc:'Structured X12 275 electronic attachments for Medicaid FFS and CHIP PA and claims when finalized.', tags:[{l:'Pending',c:'amber'},{l:'FFS/CHIP',c:'teal'}], ico:'ti-paperclip', c:'amber' },
+      { name:'ONC Cures Act — Provider actor', cite:'85 FR 25642', desc:'As a health care provider, your clinic is prohibited from information blocking. Patients must be able to access their records regardless of payer type.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+      { name:'HIPAA Privacy & Security', cite:'45 CFR Parts 160/164', desc:'All non-profit dental clinics are HIPAA covered entities. Privacy, Security, and Breach Notification rules apply. Ensure your software vendor has a signed BAA.', tags:[{l:'Always applies',c:'blue'}], ico:'ti-shield', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-plug', head:'Software readiness', text:'Confirm your practice management software vendor has a FHIR PA API roadmap for managed care and supports current X12 EDI for FFS and CHIP billing.' },
+      { ico:'ti-map', head:'State Medicaid requirements', text:'Contact your state Medicaid agency for current electronic attachment and PA submission requirements — some states already have mandates ahead of CMS-0053-P.' },
+      { ico:'ti-shield', head:'HIPAA BAA', text:'Verify your PMS and clearinghouse vendors have current signed Business Associate Agreements.' },
+      { ico:'ti-ban', head:'Patient records access', text:'Establish a clear process for responding to patient record requests within the HIPAA 30-day window.' },
+    ],
+    actions: [
+      'Contact each managed care plan for their CMS-0062-P FHIR PA API implementation timeline',
+      'Review your state Medicaid provider manual for current electronic PA and attachment requirements',
+      'Verify HIPAA Business Associate Agreements are in place with your PMS and clearinghouse vendors',
+      'Establish a patient records access request workflow covering all payer types your clinic serves',
+      'Confirm whether your clinic holds any FQHC or look-alike designation that would add HRSA UDS+ obligations',
+    ],
+    ask:'What CMS interoperability, prior authorization, and HIPAA compliance requirements apply to a non-profit dental clinic that participates in Medicaid managed care, Medicare Advantage, and Medicaid fee-for-service?'
+  },
+
+  result_nonprofit_managed: {
+    badge: { label:'Moderate–high regulatory impact', c:'amber' },
+    title: 'Non-profit dental clinic — managed care participation triggers CMS interoperability and PA requirements',
+    sub: 'Your clinic\'s participation in Medicare Advantage or Medicaid managed care brings it within scope of CMS-0062-P proposed FHIR prior authorization requirements and CMS-0057-P interoperability rules.',
+    programs: [{ label:'Non-profit clinic', c:'teal' }, { label:'Medicaid MCO / MA', c:'blue' }],
+    hl: { c:'blue', title:'Non-profit clinics are not FQHCs — HRSA UDS+ does not apply unless separately designated', text:'Unlike FQHCs, non-profit 501(c)(3) dental clinics do not have HRSA Uniform Data System reporting obligations unless separately designated as an FQHC or look-alike. Your obligations flow from program participation under CMS and from your status as a health care provider under HIPAA and the ONC Cures Act.' },
+    regs: [
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'FHIR PA API requirements apply to Medicaid MCO and MA plan contracts. When finalized, payers implement; your clinic must receive electronic PA decisions.', tags:[{l:'Proposed',c:'amber'},{l:'MCO/MA scope',c:'blue'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0057-P Interoperability', cite:'85 FR 25510', desc:'Managed care plans must implement FHIR Patient Access and Provider Access APIs. Relevant for care coordination and patient record access.', tags:[{l:'Final Rule',c:'green'},{l:'FHIR R4',c:'blue'}], ico:'ti-api', c:'blue' },
+      { name:'ONC Cures Act — Provider actor', cite:'85 FR 25642', desc:'As a health care provider, your clinic cannot block patient access to records. Applies regardless of payer mix.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+      { name:'HIPAA', cite:'45 CFR Parts 160/164', desc:'All dental clinics are covered entities. BAA, Privacy, Security, and Breach Notification rules apply.', tags:[{l:'Always applies',c:'blue'}], ico:'ti-shield', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-plug', head:'FHIR PA readiness', text:'Ask your PMS vendor about Da Vinci PAS and CDex implementation timelines for your managed care contracts.' },
+      { ico:'ti-shield', head:'HIPAA BAA', text:'Ensure signed Business Associate Agreements are in place with your PMS, clearinghouse, and any other PHI-handling vendors.' },
+      { ico:'ti-tooth', head:'DDE exception', text:'If PA submissions go through payer web portals (DDE), assess exposure under 45 CFR 162.923(b) as FHIR PA APIs are implemented.' },
+      { ico:'ti-ban', head:'Patient access', text:'Establish a records access response process. Patients have HIPAA Right of Access rights regardless of clinic type.' },
+    ],
+    actions: [
+      'Contact each managed care plan for their CMS-0062-P FHIR PA API implementation timeline',
+      'Ask your PMS vendor for Da Vinci PAS and CDex IG implementation roadmap',
+      'Verify HIPAA Business Associate Agreements with all PHI-handling vendors',
+      'Confirm whether your clinic holds any FQHC or look-alike designation that would add HRSA obligations',
+    ],
+    ask:'What CMS prior authorization and interoperability requirements apply to a non-profit dental clinic participating in Medicare Advantage and Medicaid managed care, and how does this differ from FQHC obligations?'
+  },
+
+  result_nonprofit_ffs: {
+    badge: { label:'Moderate impact', c:'blue' },
+    title: 'Non-profit dental clinic — FFS and CHIP participation; state rules and pending attachment standard apply',
+    sub: 'Your clinic bills fee-for-service Medicaid, CHIP, or traditional Medicare. CMS-0062-P FHIR PA requirements do not apply to FFS programs. The pending CMS-0053-P electronic attachment standard and your state Medicaid agency\'s requirements are the primary regulatory considerations.',
+    programs: [{ label:'Non-profit clinic', c:'teal' }, { label:'Medicaid FFS / CHIP', c:'green' }],
+    hl: { c:'teal', title:'Non-profit clinics are not FQHCs — HRSA UDS+ does not apply unless separately designated', text:'Non-profit 501(c)(3) dental clinics do not have HRSA Uniform Data System reporting obligations. Your compliance obligations come from your state Medicaid agency and HIPAA. Monitor for the CMS-0053-P electronic attachment standard finalization.' },
+    regs: [
+      { name:'CMS-0053-P Electronic Attachment', cite:'NPRM — Pending', desc:'When finalized, requires structured X12 275 electronic attachments for Medicaid FFS and CHIP PA and claims.', tags:[{l:'Pending',c:'amber'},{l:'FFS/CHIP',c:'teal'}], ico:'ti-paperclip', c:'amber' },
+      { name:'State Medicaid and CHIP rules', cite:'State-specific', desc:'Your state Medicaid agency governs current electronic PA and attachment submission requirements. Some states already mandate electronic submissions ahead of CMS-0053-P.', tags:[{l:'State-specific',c:'teal'}], ico:'ti-map', c:'teal' },
+      { name:'HIPAA', cite:'45 CFR Parts 160/164', desc:'All dental clinics are HIPAA covered entities. BAA, Privacy, Security, and Breach Notification rules apply.', tags:[{l:'Always applies',c:'blue'}], ico:'ti-shield', c:'blue' },
+      { name:'ONC Cures Act — Provider actor', cite:'85 FR 25642', desc:'As a health care provider, your clinic cannot block patient access to records.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-map', head:'State Medicaid requirements first', text:'Review your state Medicaid dental provider manual for current electronic PA and attachment submission requirements.' },
+      { ico:'ti-file', head:'Attachment workflow', text:'Identify which services require attachments (X-rays, narratives) and assess your PMS structured export capability.' },
+      { ico:'ti-shield', head:'HIPAA BAA', text:'Ensure signed Business Associate Agreements with your PMS and clearinghouse vendors.' },
+      { ico:'ti-clock', head:'CMS-0053-P monitoring', text:'Monitor CMS-0053-P for finalization — it will directly affect your Medicaid FFS and CHIP attachment workflows.' },
+    ],
+    actions: [
+      'Review your state Medicaid dental provider manual for current electronic PA and attachment requirements',
+      'Ask your clearinghouse about X12 275 electronic attachment support for CMS-0053-P compliance',
+      'Verify HIPAA Business Associate Agreements with all PHI-handling vendors',
+      'Monitor CMS-0053-P for finalization and your state Medicaid agency for implementation guidance',
+    ],
+    ask:'What HIPAA and federal health IT compliance requirements apply to a non-profit dental clinic billing Medicaid fee-for-service and CHIP, and what should I prepare for under the CMS-0053-P electronic attachment standard?'
+  },
+
+  result_nonprofit_private: {
+    badge: { label:'Low regulatory impact', c:'green' },
+    title: 'Non-profit dental clinic — commercial and self-pay only; HIPAA and ONC information blocking apply',
+    sub: 'Without federal program participation, your clinic has no direct CMS interoperability or prior authorization regulatory exposure. HIPAA obligations and ONC information blocking rules apply as baseline requirements for all health care providers.',
+    programs: [{ label:'Non-profit clinic', c:'teal' }, { label:'Commercial / self-pay', c:'gray' }],
+    regs: [
+      { name:'HIPAA Privacy & Security', cite:'45 CFR Parts 160/164', desc:'All dental clinics are HIPAA covered entities. Privacy, Security, and Breach Notification rules apply. Ensure your software vendor has a signed Business Associate Agreement.', tags:[{l:'Always applies',c:'blue'}], ico:'ti-shield', c:'blue' },
+      { name:'ONC Cures Act — Provider actor', cite:'85 FR 25642', desc:'As a health care provider, your clinic is prohibited from information blocking regardless of payer mix. Patients must be able to access their records.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-shield', head:'HIPAA BAA', text:'Verify your PMS vendor has a current signed Business Associate Agreement and adequate Security Rule controls.' },
+      { ico:'ti-ban', head:'Patient records access', text:'Establish a records access request process — HIPAA Right of Access applies to all dental clinics regardless of payer mix.' },
+      { ico:'ti-clock', head:'Future program participation', text:'If your clinic joins Medicaid or another federal program, regulatory requirements will increase substantially.' },
+      { ico:'ti-plug', head:'Data portability', text:'Review your PMS contract for data portability and export terms before renewing.' },
+    ],
+    actions: [
+      'Verify your PMS vendor has a current signed Business Associate Agreement',
+      'Establish a HIPAA Right of Access response process for patient record requests',
+      'Review your PMS contract for data portability and export terms',
+      'If federal program participation is planned, assess compliance readiness in advance',
+    ],
+    ask:'What HIPAA and ONC information blocking compliance requirements apply to a non-profit dental clinic that does not participate in any federal health care programs?'
+  },
+
+  result_fqhc_full: {
+    badge: { label:'High regulatory impact', c:'coral' },
+    title: 'FQHC dental — HRSA UDS+ reporting plus full CMS interoperability scope',
+    sub: 'Your FQHC has the broadest set of federal HIT obligations: HRSA UDS+ FHIR reporting, CMS interoperability rules, and pending FHIR PA requirements.',
+    programs: [{ label:'FQHC', c:'teal' }, { label:'Medicaid MCO / MA', c:'blue' }, { label:'Medicaid FFS', c:'green' }],
+    hl: { c:'amber', title:'HRSA UDS+ adds a layer not applicable to private practices', text:'FQHCs face dual compliance: HRSA UDS+ FHIR reporting AND CMS program-specific interoperability and PA rules. Your EHR must support both HRSA FHIR profiles and CMS API requirements.' },
+    regs: [
+      { name:'HRSA UDS+ Initiative', cite:'HRSA Health Center Reporting', desc:'FHIR-based UDS reporting required. FQHCs must assess EHR readiness for structured FHIR reporting of dental visit, screening, and preventive care metrics.', tags:[{l:'Active',c:'green'},{l:'FQHC-specific',c:'teal'}], ico:'ti-chart-bar', c:'teal' },
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'FHIR PA API requirements apply to MA and Medicaid MCO plan contracts.', tags:[{l:'Proposed',c:'amber'},{l:'MCO + MA scope',c:'blue'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0057-P', cite:'85 FR 25510', desc:'MA and Medicaid MCO plans must implement FHIR Patient Access and Provider Access APIs.', tags:[{l:'Final Rule',c:'green'},{l:'FHIR R4',c:'blue'}], ico:'ti-api', c:'blue' },
+      { name:'CMS-0053-P', cite:'NPRM — Pending', desc:'Structured X12 275 attachments required across FFS and managed care dental billing when finalized.', tags:[{l:'Pending',c:'amber'}], ico:'ti-paperclip', c:'amber' },
+    ],
+    consids: [
+      { ico:'ti-chart-bar', head:'UDS+ dental metrics', text:'Ensure your EHR captures dental visit, preventive service, and caries risk data in structured format.' },
+      { ico:'ti-plug',  head:'EHR dual compliance', text:'Your EHR must support HRSA UDS+ FHIR profiles AND CMS Patient/Provider Access API requirements.' },
+      { ico:'ti-building', head:'FQHC network infrastructure', text:'Assess whether your FQHC network or PCO has shared FHIR infrastructure.' },
+      { ico:'ti-shield', head:'Information blocking', text:'FQHC dental records must be accessible to patients via patient portal.' },
+    ],
+    actions: [
+      'Contact your EHR vendor about HRSA UDS+ FHIR reporting support for dental metrics',
+      'Verify your EHR supports CMS Patient Access and Provider Access API requirements',
+      'Request FHIR PA API implementation timelines from each managed care plan',
+      'Connect with your FQHC network or PCO for shared FHIR infrastructure options',
+    ]
+  },
+  result_fqhc_managed_care: {
+    badge: { label:'High regulatory impact', c:'coral' },
+    title: 'FQHC dental with managed care — HRSA UDS+ plus CMS FHIR interoperability',
+    sub: 'Your FQHC\'s managed care participation triggers CMS interoperability and proposed PA rules, layered on HRSA FHIR reporting requirements.',
+    programs: [{ label:'FQHC', c:'teal' }, { label:'Medicaid MCO / MA', c:'blue' }],
+    hl: { c:'teal', title:'HRSA UDS+ is your foundational FHIR compliance obligation', text:'Confirm your EHR vendor supports HRSA UDS+ FHIR reporting for dental data elements before addressing CMS program-specific requirements.' },
+    regs: [
+      { name:'HRSA UDS+ Initiative', cite:'HRSA Health Center Reporting', desc:'FQHC-specific FHIR reporting requirement for dental visit, preventive, and screening metrics.', tags:[{l:'Active',c:'green'},{l:'FQHC-specific',c:'teal'}], ico:'ti-chart-bar', c:'teal' },
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'FHIR PA API requirements for Medicaid MCO or MA plan contracts.', tags:[{l:'Proposed',c:'amber'},{l:'MCO/MA scope',c:'blue'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'CMS-0057-P', cite:'85 FR 25510', desc:'Managed care payers must implement Patient Access and Provider Access FHIR APIs.', tags:[{l:'Final Rule',c:'green'}], ico:'ti-api', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-chart-bar', head:'UDS+ dental data', text:'Confirm dental data elements for HRSA UDS+ are captured in structured format.' },
+      { ico:'ti-plug', head:'EHR FHIR scope', text:'Ask your EHR vendor: do you support HRSA UDS+ FHIR profiles AND CMS Patient/Provider Access API?' },
+      { ico:'ti-building', head:'Network infrastructure', text:'Work with your FQHC network or PCO to leverage shared FHIR infrastructure.' },
+      { ico:'ti-tooth', head:'Dental FHIR data maturity', text:'Monitor HL7 dental workgroup and UDS+ guidance for dental-specific data element standards.' },
+    ],
+    actions: [
+      'Confirm EHR vendor supports HRSA UDS+ FHIR dental reporting profiles',
+      'Request CMS-0062-P FHIR PA API implementation timeline from your MCO or MA plan',
+      'Verify dental data capture completeness for UDS+ dental metrics',
+      'Connect with your PCO or FQHC network for shared FHIR infrastructure support',
+    ]
+  },
+  result_fqhc_ffs: {
+    badge: { label:'Moderate impact', c:'blue' },
+    title: 'FQHC dental with FFS — HRSA UDS+ reporting and state Medicaid rules',
+    sub: 'Primary focus is HRSA UDS+ FHIR reporting and state Medicaid/CHIP electronic transaction requirements. CMS-0062-P does not directly apply to FFS programs.',
+    programs: [{ label:'FQHC', c:'teal' }, { label:'Medicaid FFS', c:'green' }, { label:'CHIP', c:'purple' }],
+    hl: { c:'teal', title:'HRSA UDS+ is required of all FQHCs regardless of payer mix', text:'HRSA UDS+ FHIR reporting is the baseline compliance obligation. State Medicaid FFS and CHIP electronic transaction requirements are the next layer.' },
+    regs: [
+      { name:'HRSA UDS+ Initiative', cite:'HRSA Health Center Reporting', desc:'FHIR-based reporting of dental visit, preventive, and screening metrics required of all FQHCs.', tags:[{l:'Active',c:'green'},{l:'All FQHCs',c:'teal'}], ico:'ti-chart-bar', c:'teal' },
+      { name:'CMS-0053-P', cite:'NPRM — Pending', desc:'Structured electronic attachments required for Medicaid FFS and CHIP dental PA and claims when finalized.', tags:[{l:'Pending',c:'amber'},{l:'FFS + CHIP',c:'teal'}], ico:'ti-paperclip', c:'amber' },
+      { name:'State Medicaid / CHIP rules', cite:'State-specific', desc:'State Medicaid agency governs FFS electronic transaction requirements.', tags:[{l:'State-specific',c:'teal'}], ico:'ti-map', c:'teal' },
+    ],
+    consids: [
+      { ico:'ti-chart-bar', head:'UDS+ dental elements', text:'Prioritize dental data capture for HRSA UDS+: visits, preventive services, caries risk, referrals.' },
+      { ico:'ti-map',  head:'State Medicaid requirements', text:'Review your state Medicaid dental provider bulletin for current electronic PA requirements.' },
+      { ico:'ti-plug', head:'EHR dental data completeness', text:'Assess whether your EHR captures all HRSA-required dental data in structured format.' },
+      { ico:'ti-building', head:'PCO support', text:'Work with your Primary Care Office or FQHC network for FHIR implementation support.' },
+    ],
+    actions: [
+      'Confirm EHR vendor supports HRSA UDS+ FHIR dental reporting elements',
+      'Review state Medicaid dental provider manual for current electronic PA requirements',
+      'Assess dental data capture completeness for UDS+ metrics',
+      'Ask your clearinghouse about X12 275 support for future CMS-0053-P compliance',
+    ]
+  },
+  result_fqhc_base: {
+    badge: { label:'Moderate impact', c:'blue' },
+    title: 'FQHC dental — HRSA UDS+ reporting and HIPAA obligations',
+    sub: 'All FQHCs must comply with HRSA UDS+ FHIR reporting and HIPAA regardless of payer mix.',
+    programs: [{ label:'FQHC', c:'teal' }],
+    regs: [
+      { name:'HRSA UDS+ Initiative', cite:'HRSA Health Center Reporting', desc:'FHIR-based UDS reporting required for all FQHCs. Dental visit, preventive, and caries risk metrics must be reportable in structured FHIR format.', tags:[{l:'Active',c:'green'},{l:'FQHC baseline',c:'teal'}], ico:'ti-chart-bar', c:'teal' },
+      { name:'HIPAA', cite:'45 CFR Parts 160/164', desc:'FQHCs are covered entities. Privacy, Security, and Breach Notification apply.', tags:[{l:'Always applies',c:'blue'}], ico:'ti-shield', c:'blue' },
+      { name:'ONC Cures Act', cite:'85 FR 25642', desc:'FQHCs may not block patient access to dental records.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-chart-bar', head:'UDS+ dental readiness', text:'Contact your EHR vendor about HRSA UDS+ FHIR support for dental metrics.' },
+      { ico:'ti-shield',head:'HIPAA compliance', text:'Verify current BAA, Security Rule compliance, and breach notification procedures.' },
+      { ico:'ti-building',head:'PCO resources', text:'Your Primary Care Office and FQHC network provide FHIR implementation support.' },
+      { ico:'ti-clock', head:'Program expansion planning', text:'If you add managed care contracts, CMS interoperability and PA requirements will apply.' },
+    ],
+    actions: [
+      'Confirm EHR vendor UDS+ FHIR dental data element support and timeline',
+      'Verify HIPAA BAA and Security Rule compliance',
+      'Connect with your PCO or FQHC network for FHIR implementation support',
+    ]
+  },
+  result_hospital_full: {
+    badge: { label:'High regulatory impact', c:'coral' },
+    title: 'Hospital dental — IPPS/OPPS billing with MA or Medicaid triggers full CMS interoperability and PA requirements',
+    sub: 'Your hospital\'s payment model and payer mix indicate it is subject to CMS-0057-P interoperability requirements. Your dental department is included, and prior authorization requirements add CMS-0062-P proposed FHIR PA API obligations.',
+    programs: [{ label:'Hospital-based', c:'blue' }, { label:'IPPS/OPPS', c:'blue' }, { label:'CMS-0057-P applies', c:'coral' }],
+    hl: { c:'amber', title:'Dental department inclusion in hospital FHIR APIs requires active verification', text:'Hospital CMS interoperability compliance covers all services including dental. Verify dental encounters are captured in the hospital EHR accessible via the Patient Access API. If dental uses a separate PMS not integrated with the hospital EHR, there is a data gap.' },
+    regs: [
+      { name:'CMS-0057-P Interoperability Rule', cite:'85 FR 25510', desc:'Hospital must implement FHIR R4 Patient Access API, Provider Access API, and Payer-to-Payer exchange. Dental encounters must be accessible.', tags:[{l:'Final Rule',c:'green'},{l:'FHIR R4',c:'blue'}], ico:'ti-api', c:'blue' },
+      { name:'CMS-0062-P', cite:'Proposed Rule (2024)', desc:'FHIR PA APIs required for dental PA workflows when finalized. Da Vinci PAS/CDex/CRD IGs apply.', tags:[{l:'Proposed',c:'amber'}], ico:'ti-file-invoice', c:'amber' },
+      { name:'ONC Cures Act', cite:'85 FR 25642', desc:'Hospital certified EHR must support USCDI v3 oral health data elements. Information blocking applies to dental records.', tags:[{l:'Active',c:'green'},{l:'USCDI v3',c:'teal'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-tooth', head:'Dental EHR integration gap', text:'Verify dental encounters are captured in hospital EHR and accessible via Patient Access API.' },
+      { ico:'ti-plug',  head:'USCDI oral health support', text:'Confirm hospital EHR vendor supports USCDI v3 oral health data classes.' },
+      { ico:'ti-building', head:'Governance', text:'Establish cross-departmental HIT compliance including dental leadership.' },
+      { ico:'ti-shield', head:'Information blocking', text:'Hospital dental data must not be subject to information blocking.' },
+    ],
+    actions: [
+      'Verify dental department encounters are captured in hospital EHR and accessible via Patient Access API',
+      'Confirm EHR vendor supports USCDI v3 oral health data elements',
+      'Review hospital information blocking policies for dental data',
+      'Request Da Vinci PAS implementation timeline from hospital EHR vendor',
+    ]
+  },
+  result_hospital_pa_limited: {
+    badge: { label:'High impact', c:'coral' },
+    title: 'Hospital dental — IPPS/OPPS billing indicates CMS-0057-P applies; PA exposure is limited',
+    sub: 'Your hospital bills under IPPS or OPPS, which indicates CMS-0057-P interoperability requirements apply. Without MA or Medicaid managed care, prior authorization exposure is more limited — but the interoperability obligations are still in full effect for your dental department.',
+    programs: [{ label:'Hospital-based', c:'blue' }, { label:'IPPS/OPPS', c:'blue' }],
+    regs: [
+      { name:'CMS-0057-P', cite:'85 FR 25510', desc:'Full FHIR R4 Patient Access, Provider Access, and Payer-to-Payer API requirements. Dental encounters must be included.', tags:[{l:'Final Rule',c:'green'}], ico:'ti-api', c:'blue' },
+      { name:'ONC Cures Act', cite:'85 FR 25642', desc:'USCDI v3 oral health data classes required. Information blocking applies.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-tooth',  head:'Dental data inclusion', text:'Confirm dental encounters are accessible via hospital FHIR Patient Access API.' },
+      { ico:'ti-plug',   head:'USCDI v3 oral health', text:'Verify hospital EHR supports USCDI v3 oral health data elements.' },
+      { ico:'ti-building',head:'Governance', text:'Include dental in hospital HIT compliance governance.' },
+      { ico:'ti-clock',  head:'CMS-0062-P monitoring', text:'For PA services that do apply, prepare FHIR PA readiness.' },
+    ],
+    actions: [
+      'Confirm dental encounter data is in hospital FHIR Patient Access API',
+      'Verify USCDI v3 oral health data element support',
+      'Identify which dental services require PA and prepare FHIR PA readiness for those',
+    ]
+  },
+  result_hospital_no_pa: {
+    badge: { label:'Moderate–high impact', c:'amber' },
+    title: 'Hospital dental — MA or Medicaid participation indicates CMS-0057-P likely applies; verify IPPS/OPPS status',
+    sub: 'Your participation in Medicare Advantage or Medicaid suggests CMS-0057-P interoperability requirements apply to your hospital. Without IPPS or OPPS billing, confirm your payment model with your compliance team. Dental department obligations are in scope regardless.',
+    programs: [{ label:'Hospital-based', c:'blue' }, { label:'MA / Medicaid', c:'teal' }],
+    regs: [
+      { name:'CMS-0057-P', cite:'85 FR 25510', desc:'Full CMS interoperability compliance required. Dental encounters must be in the patient\'s longitudinal health record.', tags:[{l:'Final Rule',c:'green'}], ico:'ti-api', c:'blue' },
+      { name:'ONC Cures Act', cite:'85 FR 25642', desc:'USCDI v3 oral health required. Information blocking applies.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-tooth',  head:'Dental data completeness', text:'Dental encounters must appear in the FHIR-accessible health record.' },
+      { ico:'ti-plug',   head:'USCDI oral health', text:'Confirm USCDI v3 oral health data element support.' },
+      { ico:'ti-clock',  head:'Future PA monitoring', text:'If dental PA is added by payers, CMS-0062-P obligations would apply.' },
+      { ico:'ti-shield', head:'Information blocking', text:'Audit patient portal for dental record accessibility.' },
+    ],
+    actions: [
+      'Verify dental encounter data is in FHIR Patient Access API outputs',
+      'Confirm USCDI v3 oral health data element support',
+      'Monitor payer contracts for new dental PA requirements',
+    ]
+  },
+  result_hospital_assess: {
+    badge: { label:'Assessment needed', c:'blue' },
+    title: 'Hospital dental — payment model suggests formal CMS-0057-P applicability assessment is needed',
+    sub: 'Based on your payment and insurance selections, your CMS-0057-P applicability is not clear-cut. Your compliance or legal team should conduct a formal determination based on your CMS enrollment type and payer contracts.',
+    programs: [{ label:'Hospital-based', c:'blue' }, { label:'Assess scope', c:'amber' }],
+    regs: [
+      { name:'CMS-0057-P scope', cite:'85 FR 25510', desc:'Covers hospitals paid under IPPS and OPPS, MA organizations, and Medicaid managed care. CAHs and specialty hospitals should verify enrollment type.', tags:[{l:'Verify scope',c:'amber'}], ico:'ti-help', c:'amber' },
+      { name:'ONC Cures Act', cite:'85 FR 25642', desc:'Information blocking rules apply to all health care providers regardless of CMS-0057-P scope.', tags:[{l:'Always applies',c:'green'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-list-check', head:'Scope determination', text:'Review your CMS enrollment type against CMS-0057-P applicability tables.' },
+      { ico:'ti-building',  head:'Legal review', text:'Engage your compliance or legal team for a formal applicability determination.' },
+      { ico:'ti-clock',     head:'Proactive FHIR readiness', text:'FHIR readiness assessment is prudent even if applicability is uncertain.' },
+      { ico:'ti-tooth',     head:'Dental data inclusion', text:'If in scope, confirm dental encounters are captured in EHR and accessible via FHIR APIs.' },
+    ],
+    actions: [
+      'Review CMS-0057-P applicability table against your hospital enrollment type',
+      'Engage compliance or legal team for formal applicability determination',
+      'Conduct a FHIR readiness assessment for your hospital EHR',
+    ]
+  },
+  result_hospital_limited: {
+    badge: { label:'Moderate impact', c:'blue' },
+    title: 'Hospital dental — no IPPS/OPPS or federal program participation indicated; HIPAA and ONC rules apply',
+    sub: 'Based on your selections, your hospital does not appear to bill under IPPS or OPPS and does not participate in Medicare Advantage or Medicaid managed care. CMS-0057-P interoperability requirements are unlikely to apply directly. HIPAA and ONC Cures Act obligations still apply to your dental department.',
+    programs: [{ label:'Hospital-based', c:'blue' }, { label:'Commercial / self-pay', c:'gray' }],
+    regs: [
+      { name:'HIPAA', cite:'45 CFR Parts 160/164', desc:'All hospital dental departments are covered entities. Privacy, Security, and Breach Notification apply.', tags:[{l:'Always applies',c:'blue'}], ico:'ti-shield', c:'blue' },
+      { name:'ONC Cures Act — Provider actor', cite:'85 FR 25642', desc:'You may not block patient access to dental records.', tags:[{l:'Active',c:'green'}], ico:'ti-ban', c:'coral' },
+    ],
+    consids: [
+      { ico:'ti-shield', head:'HIPAA baseline', text:'Ensure HIPAA compliance for dental data: BAA, Security Rule, audit logging.' },
+      { ico:'ti-ban',   head:'Information blocking', text:'Patient access to dental records must be supported.' },
+      { ico:'ti-clock', head:'Regulatory monitoring', text:'Monitor for future CMS rulemaking that may expand scope to your facility type.' },
+      { ico:'ti-plug',  head:'EHR integration', text:'Ensure dental data is accessible in the broader patient record.' },
+    ],
+    actions: [
+      'Verify HIPAA compliance for dental department: BAA, Security Rule, access controls',
+      'Establish patient dental record access process for HIPAA and ONC compliance',
+      'Monitor CMS rulemaking for scope expansion to your facility type',
+    ]
+  },
+  result_itu: {
+    badge: { label:'Federal trust — IHS-specific rules', c:'purple' },
+    title: 'I/T/U dental — IHS federal trust responsibility, RPMS, and CMS program rules',
+    sub: 'IHS, tribal, and urban Indian dental programs operate under the federal trust responsibility with IHS-specific EHR infrastructure (RPMS) and distinct CMS program participation rules.',
+    programs: [{ label:'IHS / Tribal / Urban Indian', c:'purple' }],
+    hl: { c:'purple', title:'RPMS and IHS EHR are the primary HIT infrastructure', text:'Most I/T/U programs use IHS-maintained RPMS or EHR. Federal HIT regulatory compliance is primarily coordinated through IHS IT policy. CMS program participation rules (Medicaid, CHIP) and HIPAA apply directly.' },
+    regs: [
+      { name:'IHS IT policy and RPMS/EHR', cite:'IHS IT governance', desc:'IHS maintains and updates RPMS and EHR. FHIR and interoperability compliance coordinated through IHS OIT.', tags:[{l:'IHS-specific',c:'purple'}], ico:'ti-shield', c:'purple' },
+      { name:'Medicaid and CHIP participation', cite:'State-specific', desc:'I/T/U programs billing Medicaid and CHIP are subject to HIPAA transaction standards and state Medicaid requirements.', tags:[{l:'Program-specific',c:'teal'}], ico:'ti-receipt', c:'teal' },
+      { name:'HIPAA', cite:'45 CFR Parts 160/164', desc:'I/T/U programs are HIPAA covered entities.', tags:[{l:'Always applies',c:'blue'}], ico:'ti-shield', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-shield',  head:'IHS IT coordination', text:'CMS and ONC compliance for I/T/U using RPMS/EHR is coordinated through IHS OIT. Contact your IHS area IT office.' },
+      { ico:'ti-building',head:'Tribal self-governance', text:'Tribal programs using self-governance compacts with alternative EHR systems face direct regulatory obligations.' },
+      { ico:'ti-map',    head:'State Medicaid coordination', text:'State Medicaid electronic transaction requirements apply to I/T/U programs billing Medicaid.' },
+      { ico:'ti-tooth',  head:'RPMS dental module', text:'Verify CDT code currency and accuracy in RPMS dental module.' },
+    ],
+    actions: [
+      'Contact your IHS area IT office or IHS OIT for FHIR interoperability and CMS compliance roadmap for RPMS/EHR',
+      'If using a non-RPMS system under self-governance, consult tribal legal counsel for direct regulatory compliance',
+      'Review state Medicaid and CHIP electronic transaction requirements',
+      'Verify CDT code currency in RPMS dental module',
+    ]
+  },
+  result_va: {
+    badge: { label:'Federal system — VA/DoD IT governance', c:'gray' },
+    title: 'VA or DoD dental — federal IT governance; compliance coordinated through VA OIT and DHA',
+    sub: 'VA and DoD dental programs operate within federal IT governance frameworks rather than independent CMS regulatory compliance pathways.',
+    programs: [{ label:'VA / DoD', c:'gray' }],
+    hl: { c:'blue', title:'Compliance is coordinated through VA OIT and DoD health IT governance', text:'VA dental FHIR compliance is coordinated by VA OIT. DoD dental follows TRICARE and MHS Genesis. Community providers billing VA Community Care Network (Optum or TriWest) have network contract requirements separately.' },
+    regs: [
+      { name:'VA OIT / VistA / Oracle Cerner', cite:'VA IT Governance', desc:'VA dental EHR compliance managed through VA OIT at the enterprise level.', tags:[{l:'VA-specific',c:'gray'}], ico:'ti-building', c:'gray' },
+      { name:'DoD MHS Genesis / TRICARE', cite:'DoD Health IT', desc:'DoD dental follows MHS Genesis and TRICARE requirements coordinated through DHA.', tags:[{l:'DoD-specific',c:'gray'}], ico:'ti-shield', c:'gray' },
+      { name:'VA MISSION Act — Community Care', cite:'PL 115-182', desc:'Community dental providers billing VA Community Care Network have network contract electronic submission requirements.', tags:[{l:'Community Care',c:'blue'}], ico:'ti-heart-handshake', c:'blue' },
+    ],
+    consids: [
+      { ico:'ti-building',      head:'VA OIT coordination', text:'For VA facility dental, direct compliance questions to VA OIT and your VISN CIO.' },
+      { ico:'ti-heart-handshake',head:'Community care network', text:'If billing VA Community Care Network, review your Optum/TriWest contract for electronic submission requirements.' },
+      { ico:'ti-shield',        head:'HIPAA', text:'HIPAA Privacy and Security apply alongside VA and DoD statutory frameworks.' },
+      { ico:'ti-tooth',         head:'CDT accuracy', text:'Verify CDT code currency in your VA or DoD dental system.' },
+    ],
+    actions: [
+      'Contact your VA VISN CIO or VA OIT for facility-level FHIR and interoperability guidance',
+      'For DoD: contact DHA regional health IT office for MHS Genesis dental compliance questions',
+      'If billing VA Community Care Network: review Optum or TriWest provider contract for electronic submission requirements',
+      'Verify CDT code currency in your VA or DoD dental system',
+    ]
+  }
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let history = [];
+let currentNode = 'start';
+let multiSelections = {};
+let submitted = false;
+let currentResultId = null;
+let currentResultData = null;
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+const isResult = id => id && id.startsWith('result_');
+
+function renderProg() {
+  const el = document.getElementById('prog');
+  const total = Math.max(history.length + 1, 3);
+  let h = '';
+  for (let i = 0; i < total; i++) {
+    if (i > 0) h += '<span class="prog-sep"><i class="ti ti-chevron-right"></i></span>';
+    const cls = i < history.length ? 'done' : i === history.length ? 'active' : '';
+    h += `<span class="prog-dot ${cls}"></span>`;
+  }
+  el.innerHTML = h;
+}
+
+function getBreadcrumbs() {
+  if (history.length === 0) return '';
+  const labels = [];
+  let nodeId = 'start';
+  for (let i = 0; i < history.length; i++) {
+    const mn = MULTI_NODES[nodeId], tn = TREE_NODES[nodeId];
+    if (mn) {
+      const sels = history[i].selections || [];
+      labels.push(sels.map(s => PROG_LABELS[s] || s).join(', ') || '—');
+    } else if (tn && tn.opts) {
+      const opt = tn.opts.find(o => o.next === history[i].nextId);
+      labels.push(opt ? opt.label : '—');
+    }
+    nodeId = history[i].nextId;
+  }
+  const valid = labels.filter(Boolean);
+  if (!valid.length) return '';
+  return `<div class="crumbs">${valid.map((l,i) =>
+    `<span class="crumb ${i===valid.length-1?'last':''}">${l.length>35?l.slice(0,33)+'…':l}</span>${i<valid.length-1?'<span class="crumb-sep">›</span>':''}`
+  ).join('')}</div>`;
+}
+
+function getPathSummary() {
+  const lines = [];
+  let nodeId = 'start';
+  for (let i = 0; i < history.length; i++) {
+    const mn = MULTI_NODES[nodeId], tn = TREE_NODES[nodeId];
+    if (mn) {
+      const sels = history[i].selections || [];
+      lines.push(`${mn.q} → ${sels.map(s => PROG_LABELS[s] || s).join(', ')}`);
+    } else if (tn && tn.opts) {
+      const opt = tn.opts.find(o => o.next === history[i].nextId);
+      lines.push(`${tn.q} → ${opt ? opt.label : '—'}`);
+    }
+    nodeId = history[i].nextId;
+  }
+  return lines.join('\n');
+}
+
+// ─── QUESTION RENDERER ────────────────────────────────────────────────────────
+function renderNotice(nodeId) {
+  if (nodeId !== 'private_programs') return '';
+  const sels = multiSelections[nodeId] || [];
+
+  if (sels.includes('commercial') && sels.includes('ma')) {
+    return `<div class="notice" style="border-left:3px solid #185FA5;background:#E6F1FB;border-radius:0 var(--radius) var(--radius) 0;padding:10px 14px">
+      <div style="font-size:12px;font-weight:600;color:#0C447C;margin-bottom:3px"><i class="ti ti-info-circle" style="vertical-align:-1px;margin-right:4px"></i>Both Medicare Advantage and commercial selected</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.55">Your result will address how MA regulatory rules apply to benefit lines administered by commercial carriers — even when they look like standard commercial dental contracts.</div>
+    </div>`;
+  }
+
+  if (sels.includes('commercial') && !sels.includes('ma')) {
+    return `<div class="notice" style="border-left:3px solid #854F0B;background:#FAEEDA;border-radius:0 var(--radius) var(--radius) 0;padding:12px 14px">
+      <div style="font-size:12px;font-weight:600;color:#633806;margin-bottom:6px"><i class="ti ti-alert-triangle" style="vertical-align:-1px;margin-right:4px"></i>Before continuing — check whether any commercial contracts include Medicare Advantage dental</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:8px">Many commercial dental carriers administer Medicare Advantage supplemental dental benefits under a <em>separate contract</em> that looks similar to a standard commercial PPO. If you participate in MA dental through a commercial carrier, those patients and claims are governed by MA federal rules — not commercial dental rules — and you should also select Medicare Advantage above.</div>
+      <div style="font-size:11px;font-weight:600;color:#633806;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Common carriers that administer both commercial and MA dental</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
+        ${['Delta Dental','Cigna','Aetna','Humana','Guardian','MetLife','United Concordia','Anthem / BCBS'].map(c =>
+          `<span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;background:#fff;border:0.5px solid #C49A5A;color:#633806">${c}</span>`
+        ).join('')}
+      </div>
+      <div style="font-size:11px;font-weight:600;color:#633806;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em">How to check</div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="color:#854F0B;font-weight:600;flex-shrink:0">1.</span>Review each carrier's provider agreement — MA supplemental dental contracts are typically labeled separately (e.g. "Medicare Advantage Dental Rider," "MAPD dental network," or "Part C supplemental dental").</div>
+        <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="color:#854F0B;font-weight:600;flex-shrink:0">2.</span>Check your credentialing paperwork or provider portal — MA plans have their own network IDs and may be listed separately from the commercial network.</div>
+        <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="color:#854F0B;font-weight:600;flex-shrink:0">3.</span>Look at your EOBs — MA dental claims typically show a plan name containing "Medicare Advantage," "MAPD," or "Part C" even when processed by a commercial carrier.</div>
+        <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="color:#854F0B;font-weight:600;flex-shrink:0">4.</span>Ask your billing team — if you see patients whose coverage lists a Medicare ID number alongside a commercial dental plan, that contract is almost certainly MA supplemental.</div>
+      </div>
+      <div style="margin-top:8px;font-size:12px;color:#633806;font-weight:500">If any of the above apply, also select <strong>Medicare Advantage (Part C)</strong> above before continuing.</div>
+    </div>`;
+  }
+
+  return '';
+}
+
+function renderQuestion(nodeId) {
+  const mn = MULTI_NODES[nodeId], tn = TREE_NODES[nodeId];
+  const node = mn || tn;
+  if (!node || !node.q) return '';
+  const step = history.length + 1;
+
+  if (mn) {
+    const sels = multiSelections[nodeId] || [];
+    return `<div class="card">
+      ${getBreadcrumbs()}
+      <div class="q-label">Question ${step} — select all that apply</div>
+      <div class="q-text">${mn.q}</div>
+      ${mn.hint ? `<div class="q-hint">${mn.hint}</div>` : ''}
+      ${renderNotice(nodeId)}
+      <div class="opts">
+        ${mn.opts.map(o => {
+          const sel = sels.includes(o.id);
+          return `<button class="opt${sel?' selected':''}"
+            onclick="toggleMulti('${nodeId}','${o.id}')">
+            <i class="ti ${sel ? 'ti-check-circle selected-icon' : 'ti-circle'} opt-icon"></i>
+            <div><div class="opt-main">${o.label}</div>${o.sub ? `<div class="opt-sub">${o.sub}</div>` : ''}</div>
+          </button>`;
+        }).join('')}
+      </div>
+      ${sels.length > 0 ? `<button class="btn-continue" onclick="submitMulti('${nodeId}')">Continue <i class="ti ti-arrow-right" style="font-size:13px;vertical-align:-1px"></i></button>` : ''}
+    </div>`;
+  }
+
+  return `<div class="card">
+    ${getBreadcrumbs()}
+    <div class="q-label">Question ${step}</div>
+    <div class="q-text">${tn.q}</div>
+    ${tn.hint ? `<div class="q-hint">${tn.hint}</div>` : ''}
+    <div class="opts">
+      ${tn.opts.map(o => `<button class="opt" onclick="choose('${o.next}','${nodeId}')">
+        <i class="ti ${o.icon} opt-icon"></i>
+        <div><div class="opt-main">${o.label}</div>${o.sub ? `<div class="opt-sub">${o.sub}</div>` : ''}</div>
+      </button>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ─── RESULT RENDERER ─────────────────────────────────────────────────────────
+function tagHtml(t) { return `<span class="tag" style="${tc(t.c)}">${t.l}</span>`; }
+
+function renderResult(nodeId) {
+  const r = RESULTS[nodeId];
+  if (!r) return `<div class="card"><div class="q-text">Result not found: ${nodeId}</div></div>`;
+  currentResultId = nodeId;
+  currentResultData = r;
+  const progTags = r.programs && r.programs.length
+    ? `<div class="prog-tags">${r.programs.map(p => `<span class="prog-tag" style="${tc(p.c)}">${p.label}</span>`).join('')}</div>` : '';
+  const hl = r.hl ? `<div class="hl-box" style="${bc(r.hl.c)}">
+    <div class="hl-title" style="color:${COLORS[r.hl.c].txt}"><i class="ti ti-info-circle" style="vertical-align:-1px;margin-right:4px"></i>${r.hl.title}</div>
+    <div class="hl-text">${r.hl.text}</div>
+  </div>` : '';
+  const regs = r.regs.map(reg => `<div class="reg-item">
+    <div class="reg-ico" style="${tc(reg.c)}"><i class="ti ${reg.ico}"></i></div>
+    <div>
+      <div class="reg-name">${reg.name}</div>
+      <div class="reg-cite">${reg.cite}</div>
+      <div class="reg-desc">${reg.desc}</div>
+      <div class="tags">${reg.tags.map(tagHtml).join('')}</div>
+    </div>
+  </div>`).join('');
+  const consids = r.consids.map(c => `<div class="ci">
+    <div class="ci-head"><i class="ti ${c.ico}" style="font-size:14px"></i>${c.head}</div>
+    <div class="ci-text">${c.text}</div>
+  </div>`).join('');
+  const acts = r.actions.map((a,i) => `<div class="act"><span class="act-n">${i+1}</span><span>${a}</span></div>`).join('');
+
+  return `<div class="result-card">
+    <div class="r-head">
+      ${getBreadcrumbs()}
+      <div class="r-badge" style="${tc(r.badge.c)}"><i class="ti ti-check-circle"></i>${r.badge.label}</div>
+      <div class="r-title">${r.title}</div>
+      <div class="r-sub">${r.sub}</div>
+      ${progTags}${hl}
+    </div>
+    <div class="sec"><div class="sec-label"><i class="ti ti-file-text" style="vertical-align:-1px;margin-right:4px;font-size:12px"></i>Applicable regulations &amp; standards</div>${regs}</div>
+    <div class="sec"><div class="sec-label"><i class="ti ti-bulb" style="vertical-align:-1px;margin-right:4px;font-size:12px"></i>Software decision considerations</div><div class="consid-grid">${consids}</div></div>
+    <div class="sec"><div class="sec-label"><i class="ti ti-list-check" style="vertical-align:-1px;margin-right:4px;font-size:12px"></i>Recommended next steps</div><div class="acts">${acts}</div>
+      <button class="btn-reset" onclick="reset()"><i class="ti ti-refresh" style="font-size:13px"></i>Start over</button>
+    </div>
+  </div>
+  ${renderSubmitForm(r)}`;
+}
+
+// ─── PART 2 STATE ─────────────────────────────────────────────────────────────
+let part2Active = false;
+let p2answers = {}; // questionId -> { selected, correct, explanation }
+let p2submitted = false;
+let p2ShowSummary = false;
+
+// ─── PART 2 QUESTION BANK ─────────────────────────────────────────────────────
+// Each question has: id, type (mc|tf|scenario), question, options[], correct (index or true/false),
+// explanation, tags[] (program ids that make it especially relevant)
+const P2_QUESTIONS = [
+  // ── HIPAA RIGHT OF ACCESS ────────────────────────────────────────────────
+  {
+    id:'roa1', type:'scenario',
+    topic:'HIPAA Right of Access',
+    stem:'A patient calls your front desk on a Monday and requests a copy of their complete dental records, including X-rays. They want them emailed as PDFs.',
+    question:'What is your maximum response time under the HIPAA Right of Access?',
+    options:[
+      '10 calendar days',
+      '30 calendar days, with one possible 30-day extension',
+      '60 calendar days',
+      'As soon as reasonably possible — no fixed deadline'
+    ],
+    correct:1,
+    explanation:'The HIPAA Privacy Rule (45 CFR §164.524) requires covered entities to act on an access request within 30 calendar days. A single 30-day extension is permitted if the reason for delay is communicated in writing to the patient within the initial 30-day period. There is no blanket 60-day rule, and "as soon as possible" alone does not satisfy the regulatory deadline.',
+    tags:['all']
+  },
+  {
+    id:'roa2', type:'tf',
+    topic:'HIPAA Right of Access',
+    stem:'Your practice uses a dental-specific practice management system (PMS) that is not ONC-certified.',
+    question:'True or False: Because your PMS is not ONC-certified, your practice is not subject to the HIPAA Right of Access requirements for patient records.',
+    options:['True','False'],
+    correct:1,
+    explanation:'False. The HIPAA Right of Access applies to all covered entities — including dental practices — regardless of whether their software is ONC-certified. ONC certification status affects information blocking rules for health IT developers, but it has no bearing on a provider\'s HIPAA obligations. You must provide patients access to their designated record set within the regulatory timeframe.',
+    tags:['all']
+  },
+  {
+    id:'roa3', type:'mc',
+    topic:'HIPAA Right of Access',
+    stem:'A patient requests their records and asks that they be sent to a third-party app they use to manage their health information.',
+    question:'Under HIPAA and the ONC Cures Act, which of the following is correct?',
+    options:[
+      'You may refuse if you cannot verify the security of the third-party app',
+      'You must send the records to the app if the patient directs you to, and you are not responsible for what the app does with the data',
+      'You must first obtain the app developer\'s HIPAA Business Associate Agreement before transmitting',
+      'You can charge a per-page fee for electronic transmission to third-party apps'
+    ],
+    correct:1,
+    explanation:'Under 45 CFR §164.524(c)(3)(ii) and OCR guidance, when a patient directs records to a third-party app, you must fulfill the request. You are not liable for how the third-party app uses the data after transmission — HIPAA protections do not follow the data once the patient directs it to a non-covered entity. No BAA is required for patient-directed disclosures to apps. You may charge a reasonable cost-based fee, but per-page fees are generally not permissible for electronic records.',
+    tags:['all']
+  },
+  {
+    id:'roa4', type:'scenario',
+    topic:'HIPAA Right of Access',
+    stem:'A patient requests access to their records and you determine that access could reasonably endanger the life or physical safety of another person.',
+    question:'What is the correct action under HIPAA?',
+    options:[
+      'Deny the request and document the reason; no appeal process is required',
+      'Deny the request, provide written denial with the basis, and inform the patient of their right to have the denial reviewed',
+      'Deny the request and report the concern to law enforcement',
+      'Provide a redacted version only, without explanation'
+    ],
+    correct:1,
+    explanation:'Under 45 CFR §164.524(d), if you deny a request on a reviewable ground (such as potential endangerment), the denial must be in writing, explain the basis, inform the patient of their right to request a review by a licensed health care professional designated by the covered entity, and describe how to file a complaint with OCR. This is one of three reviewable denial grounds under HIPAA — the review process is not optional.',
+    tags:['all']
+  },
+  {
+    id:'roa5', type:'tf',
+    topic:'HIPAA Right of Access',
+    question:'True or False: A dental practice may charge patients a fee for providing a copy of their records, but the fee must be cost-based and may only include labor for copying, supplies, and postage — not overhead costs or per-page fees for electronic records.',
+    options:['True','False'],
+    correct:0,
+    explanation:'True. Under 45 CFR §164.524(c)(4) and OCR guidance, covered entities may charge a reasonable, cost-based fee that covers only: (1) labor for copying, (2) supplies for creating paper or electronic copies, and (3) postage if mailing. For electronic records sent electronically, the fee should be minimal or zero since labor costs are negligible. A per-page fee is not appropriate for electronic records. Overhead, profit margin, and retrieval time are not permissible fee components.',
+    tags:['all']
+  },
+  {
+    id:'balance1', type:'scenario',
+    topic:'HIPAA Right of Access',
+    stem:'A patient who owes your practice an outstanding balance of $340 requests a complete copy of their dental records, including treatment notes and radiographs.',
+    question:'Under HIPAA, which of the following best describes what you may do?',
+    options:[
+      'Withhold the records until the balance is paid in full — providers have a lien right over records for unpaid services',
+      'Provide the records but add a collection notice and outstanding balance statement to the disclosure',
+      'You must provide access to the records regardless of the outstanding balance; withholding records as leverage for payment is not a permissible reason to deny a Right of Access request',
+      'You may delay fulfillment by up to 90 days while pursuing the outstanding balance through collections'
+    ],
+    correct:2,
+    explanation:'OCR has made clear through guidance and enforcement actions that an outstanding balance is not a permissible basis to deny or delay a HIPAA Right of Access request. The eight grounds for denial under 45 CFR §164.524(a)(2)-(3) are specific and do not include unpaid fees. Withholding records to coerce payment has been cited in OCR settlements and is treated as a Right of Access violation. You may charge the permissible cost-based fee for copying, but fulfillment of the access request itself cannot be conditioned on the patient settling their account.',
+    tags:['all']
+  },
+
+  // ── INFORMATION BLOCKING ─────────────────────────────────────────────────
+  {
+    id:'ib1', type:'scenario',
+    topic:'Information Blocking',
+    stem:'Your dental software vendor includes a contract clause requiring you to obtain vendor approval before migrating patient data to a competitor\'s system when you switch PMS products.',
+    question:'Under the ONC Cures Act information blocking rules, which of the following best characterizes this clause?',
+    options:[
+      'Permissible — vendors have legitimate IP interests in their data formats',
+      'Potentially information blocking by the vendor, and accepting such terms may implicate the provider as well',
+      'Not covered — information blocking rules only apply to EHRs used by hospitals',
+      'Permissible if the vendor provides a 30-day transition period'
+    ],
+    correct:1,
+    explanation:'Under 45 CFR Part 171, information blocking is defined as a practice that is likely to interfere with, prevent, or materially discourage access, exchange, or use of electronic health information. Contract clauses restricting data portability or requiring vendor approval for migration are a commonly cited form of vendor information blocking. While the primary actor is the vendor, providers who agree to and enforce such terms may also face scrutiny. Dental PMS vendors are not currently ONC-certified, but OIG has authority to investigate providers as actors regardless of vendor certification status.',
+    tags:['all']
+  },
+  {
+    id:'ib2', type:'tf',
+    topic:'Information Blocking',
+    question:'True or False: A dental provider who is not using ONC-certified software is exempt from the information blocking provisions of the ONC 21st Century Cures Act.',
+    options:['True','False'],
+    correct:1,
+    explanation:'False. The information blocking rule distinguishes between three categories of actors: health care providers, health IT developers of certified health IT, and health information networks and exchanges. Dental providers are "health care providers" under HIPAA and are subject to the information blocking prohibition as actors — regardless of whether their practice management software is ONC-certified. The certification status of the software affects the vendor\'s obligations, not the provider\'s.',
+    tags:['all']
+  },
+  {
+    id:'ib3', type:'mc',
+    topic:'Information Blocking',
+    question:'The ONC Cures Act Final Rule establishes eight exceptions to the information blocking prohibition. Which of the following is a valid exception that permits a provider to limit access to EHI?',
+    options:[
+      'The Competitive Harm Exception — protecting proprietary clinical workflows',
+      'The Privacy Exception — where sharing would violate applicable privacy law or the individual\'s expressed privacy preferences',
+      'The Commercial Reasonableness Exception — where sharing is not financially viable',
+      'The Patient Consent Exception — where the patient has not signed a general consent form'
+    ],
+    correct:1,
+    explanation:'The Privacy Exception (45 CFR §171.202) is one of the eight permissible exceptions and applies when sharing electronic health information would violate applicable law (such as state privacy laws more stringent than HIPAA) or the individual\'s expressed privacy preferences. The other options are fabricated. The eight actual exceptions are: Privacy, Security, Infeasibility, Health IT Performance, Content and Manner, Fees, Licensing, and Preventing Harm.',
+    tags:['all']
+  },
+  {
+    id:'ib4', type:'scenario',
+    topic:'Information Blocking',
+    stem:'A specialist office requests dental records for a mutual patient who has signed a general treatment consent. Your front desk staff tells the specialist the records are "not available right now" and never follows up. Three weeks pass without a response.',
+    question:'How should this situation be characterized?',
+    options:[
+      'Acceptable — providers are not required to respond to specialist requests within a fixed timeframe',
+      'A potential HIPAA Right of Access violation only, since it involves a third-party request not a patient request',
+      'A potential information blocking violation — unreasonable delay in responding to a request for EHI can constitute information blocking',
+      'Not an information blocking concern since the delay was administrative, not intentional'
+    ],
+    correct:2,
+    explanation:'Information blocking includes practices that "unreasonably limit the timeliness" of access to EHI. OCR and ONC guidance make clear that passive delay — including failure to respond, indefinite "not available" responses, or staff inaction — can constitute information blocking even without explicit intent to block. Intent is not required to trigger the prohibition. This situation also implicates HIPAA treatment disclosure provisions. Providers should establish written workflows for responding to records requests within defined timeframes.',
+    tags:['all']
+  },
+  {
+    id:'ib5', type:'tf',
+    topic:'Information Blocking',
+    stem:'Your practice has moved to a new PMS and the old vendor charges a $500 data migration fee to export patient records in a usable format.',
+    question:'True or False: Under the ONC information blocking rules, a health IT vendor charging a fee for data export is always information blocking.',
+    options:['True','False'],
+    correct:1,
+    explanation:'False. The Fees Exception (45 CFR §171.302) permits health IT developers to charge fees for access, exchange, or use of EHI, provided the fee is reasonable and cost-based and does not go beyond what is necessary to recoup actual costs. A fee is not automatically information blocking — but a fee that is excessive, punitive, or designed to discourage migration can cross the line. For dental PMS vendors who are not ONC-certified, the Fees Exception does not directly apply, but the principle of reasonableness still informs how regulators and courts would view the practice.',
+    tags:['all']
+  },
+
+  // ── INFEASIBILITY EXCEPTION ───────────────────────────────────────────────
+  {
+    id:'infeas1', type:'scenario',
+    topic:'Information Blocking — Infeasibility Exception',
+    stem:'A patient contacts your practice and requests that their dental records be transmitted directly to a third-party health app via a FHIR R4 API. Your practice management software does not have a FHIR API and has no roadmap to implement one.',
+    question:'How does the ONC Infeasibility Exception apply to this situation, and what must your practice do?',
+    options:[
+      'The Infeasibility Exception fully excuses you — if your software lacks a FHIR API you have no obligation to fulfill the request in any form',
+      'The Infeasibility Exception may excuse the specific FHIR API format requested, but you must still fulfill the underlying access request through an alternative format — such as a PDF or CCD — within the required HIPAA timeframe, and you must document the basis for the infeasibility',
+      'You must upgrade your software to support FHIR APIs within 90 days of the request or face information blocking penalties',
+      'The request can be denied because FHIR API access is only required of ONC-certified EHR vendors, not dental providers'
+    ],
+    correct:1,
+    explanation:'The Infeasibility Exception (45 CFR §171.204) permits actors to decline a specific technical format or method of access when it is genuinely not technically feasible — for example, a FHIR API that does not exist in the provider\'s current software. However, the exception is narrow: it excuses only the infeasible format, not the underlying obligation to provide access to the electronic health information. The provider must still fulfill the request through an alternative format the practice can support (PDF, CCD, direct download), document the specific technical barrier, and communicate the alternative to the requestor. Using "we don\'t have a FHIR API" as a blanket denial of the entire request does not qualify for the exception and may constitute information blocking.',
+    tags:['all']
+  },
+  {
+    id:'infeas2', type:'tf',
+    topic:'Information Blocking — Infeasibility Exception',
+    question:'True or False: If a patient requests records via a specific electronic method your practice cannot support, you may document the infeasibility and decline to respond further — no alternative format is required.',
+    options:['True','False'],
+    correct:1,
+    explanation:'False. The Infeasibility Exception under 45 CFR §171.204 requires more than documentation — it requires the actor to: (1) respond to the requestor in writing within 10 business days explaining the specific basis for the infeasibility, (2) offer to fulfill the request through an alternative means that is technically feasible, and (3) fulfill the request through that alternative if the requestor agrees. Simply documenting infeasibility and closing the request does not satisfy the exception and may expose the provider to an information blocking complaint.',
+    tags:['all']
+  },
+
+  // ── PATIENT ACCESS + PORTALS ──────────────────────────────────────────────
+  {
+    id:'pa1', type:'mc',
+    topic:'Patient Access & Portals',
+    stem:'Your practice uses a patient portal, but dental radiographs are stored in a separate imaging system not connected to the portal.',
+    question:'What is your obligation under HIPAA and the ONC Cures Act?',
+    options:[
+      'No obligation — portals only need to include what the PMS natively supports',
+      'You must provide patients access to their complete designated record set, including radiographs, even if that requires manual fulfillment outside the portal',
+      'You must connect the imaging system to the portal within 90 days of receiving a patient request',
+      'You satisfy your obligation by informing patients that X-rays are available upon written request only'
+    ],
+    correct:1,
+    explanation:'The HIPAA designated record set includes all records used to make decisions about the patient — including dental radiographs. The Right of Access applies to the complete designated record set regardless of which system stores it. If your portal does not surface radiographs, you must fulfill requests for them through another means (burned to CD, emailed as DICOM or PDF) within the 30-day window. Telling patients records are "available upon written request only" without providing a clear, accessible mechanism may also raise information blocking concerns.',
+    tags:['all']
+  },
+
+  // ── MINIMUM NECESSARY / TPO ──────────────────────────────────────────────
+  {
+    id:'mn1', type:'tf',
+    topic:'Minimum Necessary & Disclosures',
+    question:'True or False: The HIPAA minimum necessary standard applies when a dental practice shares patient records with another treating provider for treatment purposes.',
+    options:['True','False'],
+    correct:1,
+    explanation:'False. The minimum necessary standard does NOT apply to disclosures for treatment purposes (45 CFR §164.502(b)(2)). Treatment disclosures — including sharing records with referring or consulting providers — are explicitly exempt from the minimum necessary requirement. The standard applies to uses and disclosures for purposes other than treatment, such as payment or operations. This is a commonly misunderstood rule in dental practices.',
+    tags:['all']
+  }
+];
+
+// ─── QUESTION SELECTION ───────────────────────────────────────────────────────
+// Always include all-tag questions. Also include program-specific questions
+// if the provider selected those programs in Part 1.
+function selectP2Questions() {
+  const sels = Object.values(multiSelections).flat();
+  const relevant = P2_QUESTIONS.filter(q =>
+    q.tags.includes('all') ||
+    q.tags.some(t => sels.includes(t))
+  );
+  // Cap at 15 questions, prioritizing variety of types
+  const shuffled = relevant.sort(() => 0);
+  return shuffled.slice(0, 15);
+}
+
+// ─── PART 2 RENDERER ─────────────────────────────────────────────────────────
+function renderPart2Divider() {
+  if (part2Active) return '<div id="part2-container"></div>';
+  return `<div id="part2-divider" style="margin-top:28px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+      <div style="flex:1;height:0.5px;background:var(--border2)"></div>
+      <span style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);white-space:nowrap">Part 2</span>
+      <div style="flex:1;height:0.5px;background:var(--border2)"></div>
+    </div>
+    <div style="background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px">
+      <div style="display:flex;align-items:flex-start;gap:14px">
+        <div style="width:40px;height:40px;border-radius:var(--radius);background:var(--blue-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <i class="ti ti-brain" style="font-size:20px;color:var(--blue-txt)"></i>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:600;margin-bottom:4px">HIPAA &amp; Information Blocking Knowledge Check</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:14px">
+            Part 2 builds on your Part 1 regulatory profile with a knowledge check focused on patient access rights, information blocking responsibilities, and provider obligations under HIPAA. Questions are drawn from real enforcement scenarios and OCR guidance.<br><br>
+            You'll see your score, a breakdown of any gaps, and can submit both parts together to ADA staff.
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--bg2);border:0.5px solid var(--border);color:var(--text2)"><i class="ti ti-clock" style="font-size:12px"></i>~5 minutes</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--bg2);border:0.5px solid var(--border);color:var(--text2)"><i class="ti ti-list-check" style="font-size:12px"></i>15 questions</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--bg2);border:0.5px solid var(--border);color:var(--text2)"><i class="ti ti-bulb" style="font-size:12px"></i>Immediate feedback</span>
+          </div>
+          <button class="btn-continue" onclick="startPart2()">
+            Continue to Part 2 <i class="ti ti-arrow-right" style="font-size:13px;vertical-align:-1px"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+let p2questions = [];
+let p2currentIdx = 0;
+
+function startPart2() {
+  part2Active = true;
+  p2questions = selectP2Questions();
+  p2currentIdx = 0;
+  p2answers = {};
+  p2ShowSummary = false;
+  // Re-render Part 1 result — renderPart2Divider will now emit <div id="part2-container">
+  const main = document.getElementById('main');
+  if (!main) return;
+  let h = `<button class="btn-back" onclick="goBack()"><i class="ti ti-arrow-left" style="font-size:13px"></i> Back to Part 1</button>`;
+  h += renderResult(currentNode);
+  main.innerHTML = h;
+  // Now fill the container
+  renderP2Container();
+}
+
+function renderP2() {
+  // Called by goBack/reset — falls through to normal render() when part2Active is false
+  if (!part2Active) { render(); return; }
+  startPart2();
+}
+
+function renderP2Container() {
+  const container = document.getElementById('part2-container');
+  if (!container) return;
+  container.innerHTML = renderP2Active();
+}
+
+function renderP2Active() {
+  const allAnswered = p2questions.every(q => p2answers[q.id] !== undefined);
+
+  // Show gap summary + submit once all answered and user has clicked "See results"
+  if ((p2ShowSummary || p2submitted) && allAnswered) {
+    return renderP2GapSummary() + renderCombinedSubmitForm();
+  }
+
+  // Show progress + all questions
+  const answered = p2questions.filter(q => p2answers[q.id] !== undefined).length;
+  const total = p2questions.length;
+
+  let html = `<div id="part2-active" style="margin-top:28px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div style="flex:1;height:0.5px;background:var(--border2)"></div>
+      <span style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);white-space:nowrap">Part 2 — Knowledge Check</span>
+      <div style="flex:1;height:0.5px;background:var(--border2)"></div>
+    </div>
+    <div style="background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px 20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div style="font-size:12px;color:var(--text2)">HIPAA &amp; Information Blocking Knowledge Check</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="font-size:12px;color:var(--text3)">${answered} of ${total} answered</div>
+        <div style="height:6px;width:120px;background:var(--bg3);border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:${Math.round(answered/total*100)}%;background:#185FA5;border-radius:3px;transition:width .3s"></div>
+        </div>
+      </div>
+    </div>`;
+
+  p2questions.forEach((q, idx) => {
+    html += renderP2Question(q, idx);
+  });
+
+  if (allAnswered) {
+    html += `<button class="btn-continue" style="width:100%;justify-content:center;margin-top:4px" onclick="showP2Summary()">
+      See my results &amp; gap summary <i class="ti ti-arrow-right" style="font-size:13px;vertical-align:-1px"></i>
+    </button>`;
+  } else if (answered > 0) {
+    html += `<div style="font-size:12px;color:var(--text3);text-align:center;padding:8px 0">${total - answered} question${total - answered !== 1 ? 's' : ''} remaining</div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+function renderP2Question(q, idx) {
+  const ans = p2answers[q.id];
+  const answered = ans !== undefined;
+  const typeLabel = q.type === 'tf' ? 'True / False' : q.type === 'scenario' ? 'Scenario' : 'Multiple Choice';
+  const typeBg = q.type === 'tf' ? 'background:#FAEEDA;color:#633806' : q.type === 'scenario' ? 'background:#EEEDFE;color:#3C3489' : 'background:#E1F5EE;color:#085041';
+
+  let html = `<div id="p2q-${q.id}" style="background:var(--bg);border:0.5px solid ${answered ? 'var(--border)' : 'var(--border2)'};border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:10px;animation:fadeUp .2s ease">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;${typeBg}">${typeLabel}</span>
+      <span style="font-size:11px;color:var(--text3)">Question ${idx+1} of ${p2questions.length}</span>
+      ${answered ? `<span style="margin-left:auto;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;${ans.correct ? 'background:#EAF3DE;color:#27500A' : 'background:#FAECE7;color:#712B13'}">${ans.correct ? '✓ Correct' : '✗ Incorrect'}</span>` : ''}
+    </div>`;
+
+  if (q.stem) {
+    html += `<div style="font-size:12px;line-height:1.5;color:var(--text2);background:var(--bg2);border-left:3px solid var(--border2);padding:8px 12px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:10px">${q.stem}</div>`;
+  }
+
+  html += `<div style="font-size:13px;font-weight:600;line-height:1.45;margin-bottom:12px">${q.question}</div>`;
+
+  html += `<div style="display:flex;flex-direction:column;gap:6px">`;
+  q.options.forEach((opt, oi) => {
+    let style = 'background:var(--bg);border-color:var(--border2);color:var(--text);';
+    let icon = 'ti-circle';
+    if (answered) {
+      if (oi === q.correct) {
+        style = 'background:#EAF3DE;border-color:#3B6D11;color:#1a3a08;';
+        icon = 'ti-check-circle';
+      } else if (oi === ans.selected) {
+        style = 'background:#FAECE7;border-color:#993C1D;color:#4a1a0d;';
+        icon = 'ti-x-circle';
+      } else {
+        style = 'opacity:.5;background:var(--bg);border-color:var(--border);color:var(--text2);';
+        icon = 'ti-circle';
+      }
+    }
+    const clickable = !answered ? `onclick="answerP2('${q.id}',${oi})"` : '';
+    html += `<button class="opt" style="${style}cursor:${answered?'default':'pointer'}" ${clickable}>
+      <i class="ti ${icon} opt-icon" style="color:inherit"></i>
+      <div style="font-size:13px">${opt}</div>
+    </button>`;
+  });
+  html += `</div>`;
+
+  if (answered) {
+    html += `<div style="margin-top:12px;padding:10px 14px;border-radius:var(--radius);border-left:3px solid ${ans.correct ? '#3B6D11' : '#993C1D'};background:${ans.correct ? '#EAF3DE' : '#FAECE7'}">
+      <div style="font-size:11px;font-weight:600;margin-bottom:3px;color:${ans.correct ? '#27500A' : '#712B13'}">
+        <i class="ti ${ans.correct ? 'ti-check' : 'ti-info-circle'}" style="vertical-align:-1px;margin-right:4px"></i>${ans.correct ? 'Correct' : 'Explanation'}
+      </div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.55">${q.explanation}</div>
+    </div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+function answerP2(qid, selectedIdx) {
+  const q = p2questions.find(x => x.id === qid);
+  if (!q || p2answers[qid] !== undefined) return;
+  p2answers[qid] = {
+    selected: selectedIdx,
+    correct: selectedIdx === q.correct,
+    explanation: q.explanation
+  };
+  renderP2Container();
+  // Scroll the just-answered question back into view
+  setTimeout(() => {
+    const el = document.getElementById('p2q-' + qid);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
+}
+
+function showP2Summary() {
+  p2ShowSummary = true;
+  renderP2Container();
+  setTimeout(() => {
+    document.getElementById('part2-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+function renderP2GapSummary() {
+  const total = p2questions.length;
+  const correct = p2questions.filter(q => p2answers[q.id]?.correct).length;
+  const incorrect = p2questions.filter(q => p2answers[q.id] && !p2answers[q.id].correct);
+  const pct = Math.round(correct/total*100);
+
+  let scoreColor, scoreBg, scoreLabel;
+  if (pct >= 80) { scoreColor='#27500A'; scoreBg='#EAF3DE'; scoreLabel='Strong foundation'; }
+  else if (pct >= 60) { scoreColor='#633806'; scoreBg='#FAEEDA'; scoreLabel='Some gaps identified'; }
+  else { scoreColor='#712B13'; scoreBg='#FAECE7'; scoreLabel='Key gaps to address'; }
+
+  const gapItems = incorrect.map(q => {
+    const typeLabel = q.type==='tf' ? 'True/False' : q.type==='scenario' ? 'Scenario' : 'Multiple Choice';
+    return `<div style="padding:12px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+        <span style="font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px;background:#FAECE7;color:#712B13">✗ Missed</span>
+        <span style="font-size:11px;color:var(--text3)">${typeLabel}</span>
+      </div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:4px;line-height:1.4">${q.question}</div>
+      <div style="font-size:11px;color:#27500A;background:#EAF3DE;padding:3px 8px;border-radius:4px;margin-bottom:6px;display:inline-block">
+        Correct: ${q.options[q.correct]}
+      </div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.5;border-left:2px solid var(--border2);padding-left:8px">${q.explanation}</div>
+    </div>`;
+  }).join('');
+
+  const topicAreas = [];
+  if (incorrect.some(q => ['roa1','roa2','roa3','roa4','roa5','balance1'].includes(q.id))) topicAreas.push('HIPAA Right of Access');
+  if (incorrect.some(q => ['ib1','ib2','ib3','ib4','ib5'].includes(q.id))) topicAreas.push('Information Blocking');
+  if (incorrect.some(q => ['infeas1','infeas2'].includes(q.id))) topicAreas.push('Infeasibility Exception');
+  if (incorrect.some(q => ['pa1','pa2','pa3'].includes(q.id))) topicAreas.push('Patient Access &amp; Portals');
+  if (incorrect.some(q => ['ma1','mco1'].includes(q.id))) topicAreas.push('MA/Managed Care obligations');
+  if (incorrect.some(q => ['mn1','mn2'].includes(q.id))) topicAreas.push('Minimum Necessary &amp; Disclosures');
+  if (incorrect.some(q => ['bn1','bn2'].includes(q.id))) topicAreas.push('Breach Notification');
+  if (incorrect.some(q => ['baa1','baa2'].includes(q.id))) topicAreas.push('Business Associate Agreements');
+
+  return `<div id="part2-summary" style="margin-top:28px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div style="flex:1;height:0.5px;background:var(--border2)"></div>
+      <span style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);white-space:nowrap">Part 2 Results</span>
+      <div style="flex:1;height:0.5px;background:var(--border2)"></div>
+    </div>
+    <div style="background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:12px">
+      <div style="padding:20px 24px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div style="width:64px;height:64px;border-radius:50%;background:${scoreBg};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;border:2px solid ${scoreColor}20">
+          <div style="font-size:20px;font-weight:700;color:${scoreColor};line-height:1">${pct}%</div>
+          <div style="font-size:10px;color:${scoreColor};font-weight:600">${correct}/${total}</div>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:600;margin-bottom:3px">${scoreLabel}</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.5">You answered ${correct} of ${total} questions correctly.${incorrect.length > 0 ? ` ${incorrect.length} topic area${incorrect.length!==1?'s':''} identified for follow-up.` : ' Excellent knowledge of provider obligations.'}</div>
+          ${topicAreas.length ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">${topicAreas.map(t=>`<span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FAEEDA;color:#633806">${t}</span>`).join('')}</div>` : ''}
+        </div>
+      </div>
+      ${incorrect.length > 0 ? `
+      <div style="padding:16px 20px">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);margin-bottom:12px">
+          <i class="ti ti-alert-circle" style="vertical-align:-1px;margin-right:4px;font-size:12px"></i>Knowledge gaps — review &amp; resources
+        </div>
+        ${gapItems}
+      </div>` : `<div style="padding:20px 24px;text-align:center;color:#27500A;font-size:13px"><i class="ti ti-circle-check" style="font-size:18px;vertical-align:-3px;margin-right:6px"></i>No gaps identified — all questions answered correctly.</div>`}
+    </div>
+  </div>`;
+}
+
+// ─── COMBINED SUBMIT FORM ─────────────────────────────────────────────────────
+function renderCombinedSubmitForm() {
+  if (p2submitted) return '';
+  const correct = p2questions.filter(q => p2answers[q.id]?.correct).length;
+  const total = p2questions.length;
+  const pct = Math.round(correct/total*100);
+  return `<div class="submit-section" id="submit-section">
+    <h3>Submit your assessment to ADA staff</h3>
+    <p class="sub-desc">Your responses are submitted anonymously. ADA staff will receive your program participation profile, applicable regulations, knowledge check score, and any follow-up question you choose to include.</p>
+    <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--text2)">
+      <strong style="color:var(--text)">Part 2 score:</strong> ${correct}/${total} correct (${pct}%)
+      ${currentResultData ? ` &nbsp;·&nbsp; <strong style="color:var(--text)">Part 1 result:</strong> ${currentResultData.badge.label}` : ''}
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label for="f-question">Follow-up question or comment (optional)</label>
+      <textarea id="f-question" maxlength="1000" placeholder="Ask a question about your regulatory profile, a knowledge check topic, or share additional context about your practice situation…" oninput="document.getElementById('f-char').textContent=(1000-this.value.length)+' characters remaining'"></textarea>
+      <div class="char-count" id="f-char">1000 characters remaining</div>
+    </div>
+    <div style="border-top:0.5px solid var(--border);padding-top:16px;margin-top:4px">
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px">
+        <div style="width:32px;height:32px;border-radius:var(--radius);background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <i class="ti ti-mail" style="font-size:16px;color:var(--text2)"></i>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:2px">Send a copy to yourself (optional)</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.5">Enter your email to receive a summary of your Part 1 regulatory profile and Part 2 results. Your email is used only to deliver this copy — it is <strong>not</strong> included in the anonymous ADA submission and will not be reported or stored by ADA.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="email" id="f-self-email" placeholder="your@email.com" autocomplete="email" style="max-width:360px">
+        <div style="font-size:11px;color:var(--text3);margin-top:5px;display:flex;align-items:center;gap:4px">
+          <i class="ti ti-lock" style="font-size:12px"></i>
+          Your email stays private — it is never sent to ADA or included in the anonymous submission.
+        </div>
+      </div>
+    </div>
+    <button class="btn-submit" onclick="submitCombinedForm()">
+      <i class="ti ti-send" style="font-size:16px"></i>
+      Submit assessment to ADA
+    </button>
+    <div class="error-msg" id="form-error">Submission failed. Please try again or email your results directly to fiehnr@ada.org</div>
+    <p class="privacy-note">Responses are anonymous. No personal information is collected or transmitted to ADA.</p>
+  </div>`;
+}
+
+function buildSummaryText() {
+  const r = currentResultData;
+  const correct = p2questions.filter(q => p2answers[q.id]?.correct).length;
+  const total = p2questions.length;
+  const pct = Math.round(correct/total*100);
+  const missed = p2questions.filter(q => p2answers[q.id] && !p2answers[q.id].correct);
+  let txt = 'FEDERAL HEALTH IT NAVIGATOR — YOUR RESULTS SUMMARY\n';
+  txt += 'American Dental Association\n';
+  txt += '─'.repeat(50) + '\n\n';
+  txt += 'PART 1 — REGULATORY PROFILE\n';
+  txt += '─'.repeat(30) + '\n';
+  if (r) {
+    txt += `Result: ${r.badge.label}\n${r.title}\n\n`;
+    if (r.programs && r.programs.length) txt += `Programs selected: ${r.programs.map(p=>p.label).join(', ')}\n\n`;
+    txt += 'Applicable regulations:\n';
+    r.regs.forEach(reg => { txt += `  • ${reg.name} (${reg.cite})\n    ${reg.desc}\n\n`; });
+    txt += 'Recommended next steps:\n';
+    r.actions.forEach((a,i) => { txt += `  ${i+1}. ${a}\n`; });
+  }
+  txt += '\n\nPART 2 — KNOWLEDGE CHECK RESULTS\n';
+  txt += '─'.repeat(30) + '\n';
+  txt += `Score: ${correct}/${total} correct (${pct}%)\n\n`;
+  if (missed.length === 0) {
+    txt += 'All questions answered correctly.\n';
+  } else {
+    txt += 'Questions to review:\n\n';
+    missed.forEach(q => {
+      txt += `  Question: ${q.question}\n`;
+      txt += `  Correct answer: ${q.options[q.correct]}\n`;
+      txt += `  Explanation: ${q.explanation}\n\n`;
+    });
+  }
+  txt += '─'.repeat(50) + '\n';
+  txt += 'This summary was generated by the ADA Federal Health IT Navigator.\n';
+  txt += 'For questions contact fiehnr@ada.org\n';
+  return txt;
+}
+
+async function submitCombinedForm() {
+  const question  = (document.getElementById('f-question')?.value || '').trim();
+  const selfEmail = (document.getElementById('f-self-email')?.value || '').trim();
+  const errEl     = document.getElementById('form-error');
+  errEl.classList.remove('visible');
+
+  if (selfEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(selfEmail)) {
+    errEl.textContent = 'Please enter a valid email address for your personal copy, or leave it blank.';
+    errEl.classList.add('visible');
+    return;
+  }
+
+  const btn = document.querySelector('.btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader" style="font-size:16px"></i> Sending…';
+
+  const r = currentResultData;
+  const regsText = r ? r.regs.map(reg => `• ${reg.name} (${reg.cite})`).join('\n') : '';
+  const actsText = r ? r.actions.map((a,i) => `${i+1}. ${a}`).join('\n') : '';
+  const pathText = getPathSummary();
+  const correct = p2questions.filter(q => p2answers[q.id]?.correct).length;
+  const total   = p2questions.length;
+  const pct     = Math.round(correct/total*100);
+  const incorrectItems = p2questions.filter(q => p2answers[q.id] && !p2answers[q.id].correct)
+    .map(q => `• ${q.question}\n  Correct answer: ${q.options[q.correct]}`).join('\n');
+  const correctItems = p2questions.filter(q => p2answers[q.id]?.correct)
+    .map(q => `• ${q.question}`).join('\n');
+
+  const adaBody = {
+    part1_regulatory_impact: r ? r.badge.label : '(unknown)',
+    part1_result_title:      r ? r.title : currentResultId,
+    part1_programs:          r && r.programs ? r.programs.map(p=>p.label).join(', ') || 'None' : '(unknown)',
+    part1_decision_path:     pathText,
+    part1_regulations:       regsText,
+    part1_actions:           actsText,
+    part2_score:             `${correct}/${total} (${pct}%)`,
+    part2_correct_items:     correctItems || '(none)',
+    part2_gaps:              incorrectItems || '(none — all correct)',
+    follow_up_question:      question || '(none provided)',
+    _subject:                `Federal HIT Navigator — Anonymous — P1: ${r ? r.badge.label : ''} | P2: ${pct}%`,
+  };
+
+  try {
+    // ── ADA anonymous submission ──────────────────────────────────────────
+    // Replace YOUR_FORM_ID with your Formspree form ID (see setup instructions)
+    const ADA_FORMSPREE_ID = 'YOUR_FORM_ID';
+    const adaResp = await fetch(`https://formspree.io/f/${ADA_FORMSPREE_ID}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(adaBody)
+    });
+    if (!adaResp.ok) throw new Error('ADA submission failed');
+
+    // ── Personal copy (only if email provided) ────────────────────────────
+    // Uses a SEPARATE Formspree form so the email address never touches the ADA submission.
+    // Replace YOUR_PERSONAL_COPY_FORM_ID with a second Formspree form ID.
+    // In that form's Formspree dashboard, enable "Send copy to submitter" or use _replyto.
+    if (selfEmail) {
+      const PERSONAL_FORMSPREE_ID = 'YOUR_PERSONAL_COPY_FORM_ID';
+      const selfBody = {
+        _replyto: selfEmail,
+        _to:      selfEmail,
+        _subject: 'Your ADA Federal Health IT Navigator results',
+        message:  buildSummaryText(),
+      };
+      await fetch(`https://formspree.io/f/${PERSONAL_FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(selfBody)
+      });
+      // Non-critical — don't block success state if personal copy fails silently
+    }
+
+    p2submitted = true;
+    const r2 = currentResultData;
+    document.getElementById('submit-section').outerHTML = `
+      <div class="success-card">
+        <div class="success-icon"><i class="ti ti-circle-check"></i></div>
+        <h3>Assessment submitted!</h3>
+        <p>Your regulatory profile and knowledge check results have been sent to ADA staff at <strong>fiehnr@ada.org</strong>.</p>
+        ${selfEmail
+          ? `<p style="margin-top:8px">A personal summary has also been sent to <strong>${selfEmail}</strong>. Check your spam folder if it doesn't arrive within a few minutes.</p>`
+          : '<p style="margin-top:8px">You can print or save this page for your records.</p>'}
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(255,255,255,0.6);border-radius:var(--radius);font-size:12px;color:var(--teal-txt)">
+          <strong>Part 1:</strong> ${r2 ? r2.badge.label : ''}<br>
+          <strong>Part 2:</strong> ${correct}/${total} correct (${pct}%)
+        </div>
+      </div>`;
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ti ti-send" style="font-size:16px"></i> Submit assessment to ADA';
+    errEl.textContent = 'Submission failed. Please try again or email your results directly to fiehnr@ada.org';
+    errEl.classList.add('visible');
+  }
+}
+
+
+// ─── SUBMISSION FORM (Part 1 standalone — no longer shown; Part 2 replaces) ──
+function renderSubmitForm(r) {
+  // Part 1 result no longer has a standalone submit form —
+  // the combined form appears after Part 2 is completed.
+  // Instead show the Part 2 divider / CTA.
+  return renderPart2Divider();
+}
+
+// (original submitForm kept for fallback but no longer called from renderSubmitForm)
+function renderSubmitFormStandalone(r) {
+  if (submitted) return '';
+  return `<div class="submit-section" id="submit-section">
+    <h3>Send your results to ADA policy staff</h3>
+    <p class="sub-desc">Submit your regulatory assessment and any follow-up questions to the ADA. You will receive a confirmation with your results summary. All fields marked <span style="color:var(--ada-red)">*</span> are required.</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="f-name">Name <span class="req">*</span></label>
+        <input type="text" id="f-name" placeholder="Dr. Jane Smith" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="f-org">Organization / Practice</label>
+        <input type="text" id="f-org" placeholder="Smith Family Dentistry">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="f-email">Email address <span class="req">*</span></label>
+        <input type="email" id="f-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="f-state">State</label>
+        <select id="f-state">
+          <option value="">— Select —</option>
+          ${['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC'].map(s=>`<option value="${s}">${s}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr">
+      <div class="form-group full">
+        <label for="f-question">Follow-up question or comment (optional)</label>
+        <textarea id="f-question" maxlength="1000" placeholder="Ask a question about your result, request clarification on a regulation, or share additional context about your practice situation…" oninput="document.getElementById('f-char').textContent=(1000-this.value.length)+' characters remaining'"></textarea>
+        <div class="char-count" id="f-char">1000 characters remaining</div>
+      </div>
+    </div>
+    <button class="btn-submit" onclick="submitForm()">
+      <i class="ti ti-send" style="font-size:16px"></i>
+      Send results to ADA
+    </button>
+    <div class="error-msg" id="form-error">Please fill in your name and a valid email address before submitting.</div>
+    <p class="privacy-note">Your information will be used by ADA policy staff to follow up on your regulatory question. It will not be shared with third parties.</p>
+  </div>`;
+}
+
+// ─── FORM SUBMISSION ──────────────────────────────────────────────────────────
+async function submitForm() {
+  const name    = (document.getElementById('f-name')?.value || '').trim();
+  const org     = (document.getElementById('f-org')?.value || '').trim();
+  const email   = (document.getElementById('f-email')?.value || '').trim();
+  const state   = (document.getElementById('f-state')?.value || '').trim();
+  const question= (document.getElementById('f-question')?.value || '').trim();
+  const errEl   = document.getElementById('form-error');
+
+  if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errEl.classList.add('visible');
+    return;
+  }
+  errEl.classList.remove('visible');
+
+  const btn = document.querySelector('.btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader" style="font-size:16px"></i> Sending…';
+
+  const r = currentResultData;
+  const regsText = r ? r.regs.map(reg => `• ${reg.name} (${reg.cite})`).join('\n') : '';
+  const actsText = r ? r.actions.map((a,i) => `${i+1}. ${a}`).join('\n') : '';
+  const pathText = getPathSummary();
+
+  const body = {
+    name, email,
+    organization: org || '(not provided)',
+    state: state || '(not provided)',
+    regulatory_impact: r ? r.badge.label : '(unknown)',
+    result_title: r ? r.title : currentResultId,
+    programs: r && r.programs ? r.programs.map(p=>p.label).join(', ') || 'None selected' : '(unknown)',
+    decision_path: pathText,
+    applicable_regulations: regsText,
+    recommended_actions: actsText,
+    follow_up_question: question || '(none provided)',
+    _replyto: email,
+    _subject: `Federal HIT Navigator — ${name} — ${r ? r.badge.label : 'Result'}`,
+  };
+
+  try {
+    // FORMSPREE ENDPOINT — replace YOUR_FORM_ID below after creating your form at formspree.io
+    // Steps: 1) Go to https://formspree.io  2) Create new form with email fiehnr@ada.org
+    //        3) Copy the form ID (looks like xkgwppzq) and replace YOUR_FORM_ID below
+    const FORMSPREE_ID = 'YOUR_FORM_ID';
+    const endpoint = `https://formspree.io/f/${FORMSPREE_ID}`;
+
+    const resp = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (resp.ok) {
+      submitted = true;
+      document.getElementById('submit-section').outerHTML = `
+        <div class="success-card">
+          <div class="success-icon"><i class="ti ti-circle-check"></i></div>
+          <h3>Thank you, ${name}!</h3>
+          <p>Your results and${question ? ' follow-up question have' : ' regulatory summary has'} been sent to ADA policy staff at <strong>fiehnr@ada.org</strong>.</p>
+          <p style="margin-top:8px">A member of the ADA team will be in touch. You can print this page for your records.</p>
+        </div>`;
+    } else {
+      throw new Error('Server error');
+    }
+  } catch (e) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ti ti-send" style="font-size:16px"></i> Send results to ADA';
+    errEl.textContent = 'Submission failed. Please try again or email your results directly to fiehnr@ada.org';
+    errEl.classList.add('visible');
+  }
+}
+
+// ─── NAVIGATION ───────────────────────────────────────────────────────────────
+function toggleMulti(nodeId, id, isNone) {
+  if (!multiSelections[nodeId]) multiSelections[nodeId] = [];
+  const sels = multiSelections[nodeId];
+  const idx = sels.indexOf(id);
+  if (idx > -1) sels.splice(idx, 1); else sels.push(id);
+  render();
+}
+
+function submitMulti(nodeId) {
+  const mn = MULTI_NODES[nodeId];
+  if (!mn) return;
+  const sels = multiSelections[nodeId] || [];
+  if (!sels.length) return;
+  const nextId = mn.resultFn(sels);
+  history.push({ fromId: nodeId, nextId, selections: sels });
+  currentNode = nextId;
+  render();
+}
+
+function choose(nextId, fromId) {
+  history.push({ fromId, nextId });
+  currentNode = nextId;
+  render();
+}
+
+function goBack() {
+  if (part2Active) {
+    part2Active = false; p2answers = {}; p2submitted = false; p2ShowSummary = false;
+    p2questions = []; p2currentIdx = 0;
+    render();
+    return;
+  }
+  if (!history.length) return;
+  const last = history.pop();
+  currentNode = last.fromId;
+  submitted = false;
+  render();
+}
+
+function reset() {
+  history = []; currentNode = 'start'; multiSelections = {}; submitted = false;
+  currentResultId = null; currentResultData = null;
+  part2Active = false; p2answers = {}; p2submitted = false; p2ShowSummary = false;
+  p2questions = []; p2currentIdx = 0;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  render();
+}
+
+function render() {
+  renderProg();
+  const main = document.getElementById('main');
+  let h = '';
+  if (history.length > 0) {
+    h += `<button class="btn-back" onclick="goBack()"><i class="ti ti-arrow-left" style="font-size:13px"></i> Back</button>`;
+  }
+  h += isResult(currentNode) ? renderResult(currentNode) : renderQuestion(currentNode);
+  main.innerHTML = h;
+  if (isResult(currentNode)) window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+render();
+</script>
+</body>
+</html>
